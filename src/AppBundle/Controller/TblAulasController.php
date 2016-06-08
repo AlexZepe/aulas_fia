@@ -67,10 +67,6 @@ class TblAulasController extends Controller
                     array_push($menuList,$menuIter);
                 }
 
-                $facultades = $this->getDoctrine()->getManager()->getRepository('AppBundle:TblFacultades')->findAll();
-
-                $escuelas = $this->getDoctrine()->getManager()->getRepository('AppBundle:TblEscuelas')->findAll();
-
                 return $this->render('tblaulas/index.html.twig', array(
                     'tblAulas' => $tblAulas,
                     'menuList'=>$menuList,
@@ -81,15 +77,7 @@ class TblAulasController extends Controller
             $this->get("session")->getFlashBag()->add("mensaje","Debe estar logueado para ver este contenido."); 
                return $this->redirect($this->generateUrl("login"));
         }
-        return $this->render('AppBundle:Cursos:cursos.html.twig');
 
-
-
-        
-
-        return $this->render('tblaulas/index.html.twig', array(
-            'tblAulas' => $tblAulas,
-        ));
     }
 
     /**
