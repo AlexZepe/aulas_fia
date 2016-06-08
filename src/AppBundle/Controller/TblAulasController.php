@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\TblAulas;
 use AppBundle\Form\TblAulasType;
+use AppBundle\Controller\IndexController;
 
 /**
  * TblAulas controller.
@@ -22,11 +23,69 @@ class TblAulasController extends Controller
      * @Route("/", name="tblaulas_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
         $tblAulas = $em->getRepository('AppBundle:TblAulas')->findAll();
+
+        $session = $request->getSession();
+        if($session->has("id")){
+            $menuList = array();
+            $subMenuList = array();
+            $menusList = $this->getDoctrine()->getEntityManager()->createQuery("SELECT m  
+                FROM AppBundle:TblMenus m 
+                ,AppBundle:TblPerfildetalle pd 
+                ,AppBundle:TblPerfil p  
+                ,AppBundle:TblUsuariosperfiles up  
+                WHERE up.idusuario = :pIdUsuario
+                AND pd.idmenu IS NOT NULL
+                and pd.idmenu = m.idmenu
+                and p.idperfil = pd.idperfil
+                and up.idperfil = p.idperfil
+                ORDER BY m.nombremenu ASC")->setParameters(array('pIdUsuario'=>$session->get('id')))->getResult();
+            if($menusList){
+                foreach ($menusList as $menuIter) {
+                    $subMenu = $this->getDoctrine()->getEntityManager()->createQuery("SELECT sm
+                        FROM AppBundle:TblMenus m 
+                        ,AppBundle:TblMenusub sm
+                        ,AppBundle:TblPerfildetalle pd
+                        ,AppBundle:TblPerfil p
+                        ,AppBundle:TblUsuariosperfiles up 
+                        WHERE up.idusuario = :pIdUsuario
+                        AND m.idmenu = :pIdMenu
+                        AND pd.idsubmenu IS NOT NULL
+                        and sm.idmenu = m.idmenu
+                        and pd.idsubmenu = sm.idsubmenu
+                        and p.idperfil = pd.idperfil
+                        and up.idperfil = p.idperfil
+                        ORDER BY sm.nombresubmenu ASC")->setParameters(array('pIdUsuario'=>$session->get('id'),'pIdMenu'=>$menuIter->getIdmenu()))->getResult();
+                    if($subMenu){
+                        foreach ($subMenu as $sm) {
+                            array_push($subMenuList,$sm);
+                        }
+                    }
+                    array_push($menuList,$menuIter);
+                }
+
+                $facultades = $this->getDoctrine()->getManager()->getRepository('AppBundle:TblFacultades')->findAll();
+
+                $escuelas = $this->getDoctrine()->getManager()->getRepository('AppBundle:TblEscuelas')->findAll();
+
+                return $this->render('tblaulas/index.html.twig', array(
+                    'tblAulas' => $tblAulas,
+                    'menuList'=>$menuList,
+                    'subMenuList'=>$subMenuList,
+                    ));
+            }
+        }else{
+            $this->get("session")->getFlashBag()->add("mensaje","Debe estar logueado para ver este contenido."); 
+               return $this->redirect($this->generateUrl("login"));
+        }
+        return $this->render('AppBundle:Cursos:cursos.html.twig');
+
+
+
+        
 
         return $this->render('tblaulas/index.html.twig', array(
             'tblAulas' => $tblAulas,
