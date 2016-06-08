@@ -24,15 +24,60 @@ class TblUsuariosController extends Controller
      * @Route("/", name="tblusuarios_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
         $tblUsuarios = $em->getRepository('AppBundle:TblUsuarios')->findAll();
 
-        return $this->render('tblusuarios/index.html.twig', array(
-            'tblUsuarios' => $tblUsuarios,
-            ));
+        $session = $request->getSession();
+        if($session->has("id")){
+            $menuList = array();
+            $subMenuList = array();
+            $menusList = $this->getDoctrine()->getEntityManager()->createQuery("SELECT m  
+                FROM AppBundle:TblMenus m 
+                ,AppBundle:TblPerfildetalle pd 
+                ,AppBundle:TblPerfil p  
+                ,AppBundle:TblUsuariosperfiles up  
+                WHERE up.idusuario = :pIdUsuario
+                AND pd.idmenu IS NOT NULL
+                and pd.idmenu = m.idmenu
+                and p.idperfil = pd.idperfil
+                and up.idperfil = p.idperfil
+                ORDER BY m.nombremenu ASC")->setParameters(array('pIdUsuario'=>$session->get('id')))->getResult();
+            if($menusList){
+                foreach ($menusList as $menuIter) {
+                    $subMenu = $this->getDoctrine()->getEntityManager()->createQuery("SELECT sm
+                        FROM AppBundle:TblMenus m 
+                        ,AppBundle:TblMenusub sm
+                        ,AppBundle:TblPerfildetalle pd
+                        ,AppBundle:TblPerfil p
+                        ,AppBundle:TblUsuariosperfiles up 
+                        WHERE up.idusuario = :pIdUsuario
+                        AND m.idmenu = :pIdMenu
+                        AND pd.idsubmenu IS NOT NULL
+                        and sm.idmenu = m.idmenu
+                        and pd.idsubmenu = sm.idsubmenu
+                        and p.idperfil = pd.idperfil
+                        and up.idperfil = p.idperfil
+                        ORDER BY sm.nombresubmenu ASC")->setParameters(array('pIdUsuario'=>$session->get('id'),'pIdMenu'=>$menuIter->getIdmenu()))->getResult();
+                    if($subMenu){
+                        foreach ($subMenu as $sm) {
+                            array_push($subMenuList,$sm);
+                        }
+                    }
+                    array_push($menuList,$menuIter);
+                }
+
+                return $this->render('tblusuarios/index.html.twig', array(
+                    'tblUsuarios' => $tblUsuarios,
+                    'menuList'=>$menuList,
+                    'subMenuList'=>$subMenuList,
+                    ));
+            }
+        }else{
+            $this->get("session")->getFlashBag()->add("mensaje","Debe estar logueado para ver este contenido."); 
+               return $this->redirect($this->generateUrl("login"));
+        }
     }
 
     /**
@@ -55,7 +100,10 @@ class TblUsuariosController extends Controller
             $encod = $encoder->encodePassword($tblUsuario, $password);
             $tblUsuario->setPassword($encod);
 
- 
+            $tblUsuario->setVigencia(1);
+            $tblUsuario->setEstatus(1);
+            $tblUsuario->setFechaestatus($tblUsuario->getFechaalta());
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($tblUsuario);
             $em->flush();
