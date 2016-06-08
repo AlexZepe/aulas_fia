@@ -4,14 +4,11 @@ AppBundle\Entity\TblMenusub:
     indexes:
         fk_submenu_menu_fk:
             columns:
-                - tbl_idmenu
+                - idmenu
     uniqueConstraints:
         tbl_menusub_pk:
             columns:
                 - idsubmenu
-        ak_fk_submenu_menu_tbl_menu:
-            columns:
-                - idmenu
     id:
         idsubmenu:
             type: integer
@@ -21,10 +18,7 @@ AppBundle\Entity\TblMenusub:
             generator:
                 strategy: SEQUENCE
     fields:
-        idmenu:
-            type: integer
-            nullable: false
-            unsigned: false
+    
         nombresubmenu:
             type: string
             nullable: true
