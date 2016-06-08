@@ -1,0 +1,39 @@
+AppBundle\Entity\TblEmpleados:
+    type: entity
+    table: tbl_empleados
+    indexes:
+        empleados_puestos_fk:
+            columns:
+                - idpuesto
+    uniqueConstraints:
+        tbl_empleados_pk:
+            columns:
+                - idempleado
+    id:
+        idempleado:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombreempleado:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+        fechaingreso:
+            type: date
+            nullable: true
+    manyToOne:
+        idpuesto:
+            targetEntity: TblPuestos
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idpuesto:
+                    referencedColumnName: idpuesto
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

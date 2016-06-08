@@ -1,0 +1,49 @@
+AppBundle\Entity\TblActividades:
+    type: entity
+    table: tbl_actividades
+    indexes:
+        tipos_actividades_fk:
+            columns:
+                - idtipoactividad
+                - idcurso
+    uniqueConstraints:
+        tbl_actividades_pk:
+            columns:
+                - idactividad
+    id:
+        idactividad:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    manyToOne:
+        idcurso:
+            targetEntity: TblCursos
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idcurso:
+                    referencedColumnName: idcurso
+            orphanRemoval: false
+        idtipoactividad:
+            targetEntity: TblTiposActividades
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idtipoactividad:
+                    referencedColumnName: idtipoactividad
+            orphanRemoval: false
+        idcurso:
+            targetEntity: TblCursos
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idcurso:
+                    referencedColumnName: idcurso
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

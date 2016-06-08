@@ -1,0 +1,43 @@
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"> {% trans %} Aulas y Laboratorios FIA {% endtrans %} </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> {% trans %} Catalogos {% endtrans %}  <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('tblfacultades_index') }}"> {% trans %} Facultades {% endtrans %} </a></li>
+                        <li><a href="{{ path('tblaulas_index') }}"> {% trans %} Aulas {% endtrans %} </a></li>
+                        <li><a href="{{ path('tbltiposactividades_index') }}"> {% trans %} Tipos Actividades {% endtrans %} </a></li>
+                        <li><a href="{{ path('tblestadoactdet_index') }}"> {% trans %} Estado Actividad {% endtrans %} </a></li>
+                        <li><a href="{{ path('tbltiposaulas_index') }}"> {% trans %} Tipos Aulas {% endtrans %} </a></li>
+                        <li><a href="{{ path('tblestadosaulas_index') }}"> {% trans %} Estados Aulas {% endtrans %} </a></li>
+                        <li><a href="{{ path('tblciclos_index') }}"> {% trans %} Ciclos {% endtrans %} </a></li>
+                        <li><a href="{{ path('tblpuestos_index') }}"> {% trans %} Puestos {% endtrans %} </a></li>
+                        <li><a href="{{ path('tblempleados_index') }}"> {% trans %} Empleados {% endtrans %} </a></li>
+                        <li><a href="{{ path('tblescuelas_index') }}"> {% trans %} Escuelas {% endtrans %} </a></li>
+                        <li><a href="{{ path('tblcarreras_index') }}"> {% trans %} Carreras {% endtrans %} </a></li>
+                        <li><a href="{{ path('tblmaterias_index') }}"> {% trans %} Materias {% endtrans %} </a></li>
+                        <li><a href="{{ path('tblusuarios_index') }}"> {% trans %} Usuarios {% endtrans %} </a></li>
+                        <li><a href="{{ path('tblperfil_index') }}"> {% trans %} Perfil {% endtrans %} </a></li>
+                        <li><a href="{{ path('tblperfildetalle_index') }}"> {% trans %} Perfil Detalle {% endtrans %} </a></li>
+                        <li><a href="{{ path('tblmenus_index') }}"> {% trans %} Menus {% endtrans %} </a></li>
+                        <li><a href="{{ path('tblmenusub_index') }}"> {% trans %} Sub Menus {% endtrans %} </a></li>
+                    </ul>
+                </li>
+                              
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>

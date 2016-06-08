@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>TblCursosDocentes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Idcursodocente</th>
+                <th>Cargo</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tblCursosDocente in tblCursosDocentes %}
+            <tr>
+                <td><a href="{{ path('tblcursosdocentes_show', { 'id': tblCursosDocente.idcursodocente }) }}">{{ tblCursosDocente.idcursodocente }}</a></td>
+                <td>{{ tblCursosDocente.cargo }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('tblcursosdocentes_show', { 'id': tblCursosDocente.idcursodocente }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('tblcursosdocentes_edit', { 'id': tblCursosDocente.idcursodocente }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('tblcursosdocentes_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

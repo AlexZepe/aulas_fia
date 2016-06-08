@@ -1,0 +1,27 @@
+AppBundle\Entity\TblTiposAulas:
+    type: entity
+    table: tbl_tipos_aulas
+    uniqueConstraints:
+        tbl_tipos_aulas_pk:
+            columns:
+                - idtipoaula
+    id:
+        idtipoaula:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombretipoaula:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+        descripciontipoaula:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+    lifecycleCallbacks: {  }

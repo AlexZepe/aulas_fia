@@ -1,0 +1,39 @@
+{% extends 'layout.html.twig' %} 
+{% block body %}
+{{ parent() }}
+<div class="row">
+    <div class="col-md-2"></div>
+      <div class="col-md-8">
+        
+        <h3>
+            {{infoCiclo}}
+        </h3>
+        <h3>Gestionar Actividades</h3>
+
+        <br/>
+        <div class="pull-center">
+            <a class="btn btn-info" href="{{ path('cursos_gest_actividades_add', { idCurso: idCur}) }}">Nueva Actividad</a>
+
+            <a class="btn btn-info" href="{{ path('cursos_find', { idCur: idCur, idfac:idfac,idEsc:idEsc,anioCic:anioCic,numCic:numCic }) }}">Volver</a>
+        </div>
+
+        <br/>
+        <table class="table table-striped table-hover">
+        <tr>
+            <td>Actividad</td>
+            <td>Estado</td>
+            <td>Acciones</td>
+        </tr>
+    {% for actividadIter in actividadesList %}
+        <tr>
+            <td>{{ actividadIter["nombretipoactividad"] }}</td>
+            <td>{{ actividadIter["nombreestadoactdet"] }}</td>
+            <td class="actions">
+            </td>
+        </tr>
+    {% endfor%}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

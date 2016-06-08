@@ -1,0 +1,46 @@
+AppBundle\Entity\TblUsuarios:
+    type: entity
+    table: tbl_usuarios
+    uniqueConstraints:
+        tbl_usuarios_pk:
+            columns:
+                - idusuario
+    id:
+        idusuario:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        usuario:
+            type: string
+            nullable: true
+            length: 25
+            fixed: false
+        nombreusuario:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+        password:
+            type: string
+            nullable: true
+            length: 32
+            fixed: false
+        vigencia:
+            type: integer
+            nullable: true
+            unsigned: false
+        estatus:
+            type: integer
+            nullable: true
+            unsigned: false
+        fechaalta:
+            type: date
+            nullable: true
+        fechaestatus:
+            type: date
+            nullable: true
+    lifecycleCallbacks: {  }

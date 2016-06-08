@@ -1,0 +1,46 @@
+{% extends 'layout.html.twig' %} 
+{% block body %}
+{{ parent() }}
+<div class="row">
+    <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <h3>
+            {{infoCiclo}}
+        </h3>
+        <h3>Agregar Docente</h3>
+
+        <form class="form-horizontal" role="form" id="formAddCursoDocente" method="POST" action="{{path('cursos_add_curso_docente', { idCurso: idCur })}}">
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Docente</label>
+                <div class="col-lg-10">
+                    <select class="form-control" required id="empleadoSelect" name="empleadoSelect">
+                        {% for empleadoIter in empleadosList %}
+                            <option value="{{empleadoIter.idempleado}}">{{empleadoIter.nombreempleado}}</option>
+                        {% endfor%}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Rol en Curso</label>
+                <div class="col-lg-10">
+                    <select class="form-control" required id="rolEnCursoSelect" name="rolEnCursoSelect">
+                        <option value="Coordinador">Coordinador</option>
+                        <option value="Coordinador">Docente</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                    <button type="submit" class="btn btn-info">Guardar</button>
+                    <a class="btn btn-info" href="{{ path('cursos_gest_docentes', { idCurso: idCur }) }}">Volver</a>
+                </div>
+            </div>
+        </form>
+
+        <br/>
+    </div>
+</div>
+
+{% endblock %}

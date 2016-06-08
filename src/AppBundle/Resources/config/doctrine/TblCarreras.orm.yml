@@ -1,0 +1,46 @@
+AppBundle\Entity\TblCarreras:
+    type: entity
+    table: tbl_carreras
+    indexes:
+        carreras_escuelas_fk:
+            columns:
+                - idescuela
+    uniqueConstraints:
+        tbl_carreras_pk:
+            columns:
+                - idcarrera
+    id:
+        idcarrera:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombrecarrera:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+        codigocarrera:
+            type: string
+            nullable: false
+            length: 10
+            fixed: false
+        descripcioncarrera:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+    manyToOne:
+        idescuela:
+            targetEntity: TblEscuelas
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idescuela:
+                    referencedColumnName: idescuela
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

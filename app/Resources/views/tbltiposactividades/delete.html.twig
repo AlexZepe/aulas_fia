@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}    
+            {{ form_start(delete_form) }}
+                <a href="{{ path('tbltiposactividades_index') }}" class="btn btn-success btn-xs">No</a>
+                <input class="btn btn-danger btn-xs" type="submit" value="Si">
+            {{ form_end(delete_form) }}
+{% endblock %}

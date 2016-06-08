@@ -1,0 +1,12 @@
+login:
+    path:     /login
+    defaults: { _controller: AppBundle:Login:login }
+
+index:
+    path:     /inicio
+    methods:   GET
+    defaults: { _controller: AppBundle:Index:inicio }
+
+salir:
+    path:     /salir
+    defaults: { _controller: AppBundle:Index:salir }

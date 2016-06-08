@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>TblCursosDocentes</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Idcursodocente</th>
+                <td>{{ tblCursosDocente.idcursodocente }}</td>
+            </tr>
+            <tr>
+                <th>Cargo</th>
+                <td>{{ tblCursosDocente.cargo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('tblcursosdocentes_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('tblcursosdocentes_edit', { 'id': tblCursosDocente.idcursodocente }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

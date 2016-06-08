@@ -1,0 +1,30 @@
+AppBundle\Entity\TblMenus:
+    type: entity
+    table: tbl_menus
+    uniqueConstraints:
+        tbl_menus_pk:
+            columns:
+                - idmenu
+    id:
+        idmenu:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombremenu:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+        url:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+        fechaalta:
+            type: date
+            nullable: true
+    lifecycleCallbacks: {  }

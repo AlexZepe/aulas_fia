@@ -1,0 +1,77 @@
+AppBundle\Entity\TblActividadesDetalle:
+    type: entity
+    table: tbl_actividades_detalle
+    indexes:
+        actividades_aulas_fk:
+            columns:
+                - idaula
+        act_det_estado_fk:
+            columns:
+                - idestadoactdet
+        detalle_actividades_fk:
+            columns:
+                - idactividad
+    uniqueConstraints:
+        tbl_actividades_detalle_pk:
+            columns:
+                - idactividad
+                - idestadoactdet
+                - idactividadesdetalle
+    id:
+        idactividadesdetalle:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+    fields:
+        horainicio:
+            type: string
+            nullable: false
+            length: 5
+            fixed: false
+        horafin:
+            type: string
+            nullable: false
+            length: 5
+            fixed: false
+        estado:
+            type: integer
+            nullable: false
+            unsigned: false
+        dia:
+            type: date
+            nullable: false
+        correlativo:
+            type: integer
+            nullable: false
+            unsigned: false
+    oneToOne:
+        idestadoactdet:
+            targetEntity: TblEstadoActDet
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idestadoactdet:
+                    referencedColumnName: idestadoactdet
+            orphanRemoval: false
+        idactividad:
+            targetEntity: TblActividades
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idactividad:
+                    referencedColumnName: idactividad
+            orphanRemoval: false
+    manyToOne:
+        idaula:
+            targetEntity: TblAulas
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idaula:
+                    referencedColumnName: idaula
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

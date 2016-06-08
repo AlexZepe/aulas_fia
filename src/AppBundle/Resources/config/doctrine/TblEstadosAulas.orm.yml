@@ -1,0 +1,27 @@
+AppBundle\Entity\TblEstadosAulas:
+    type: entity
+    table: tbl_estados_aulas
+    uniqueConstraints:
+        tbl_estados_aulas_pk:
+            columns:
+                - idestadoaula
+    id:
+        idestadoaula:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombreestadoaula:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+        descripcionestadoaula:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+    lifecycleCallbacks: {  }

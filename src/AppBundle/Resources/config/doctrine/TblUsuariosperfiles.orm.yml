@@ -1,0 +1,43 @@
+AppBundle\Entity\TblUsuariosperfiles:
+    type: entity
+    table: tbl_usuariosperfiles
+    indexes:
+        fk_usuariosperfiles_usuario_fk:
+            columns:
+                - idperfil
+        fk_usuariosperfiles_perfiles_fk:
+            columns:
+                - idusuario
+    uniqueConstraints:
+        tbl_usuariosperfiles_pk:
+            columns:
+                - idperfil
+                - idusuario
+    id:
+        idusuarioperfil:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    manyToOne:
+        idusuario:
+            targetEntity: TblUsuarios
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idusuario:
+                    referencedColumnName: idusuario
+            orphanRemoval: false
+        idperfil:
+            targetEntity: TblPerfil
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idperfil:
+                    referencedColumnName: idperfil
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

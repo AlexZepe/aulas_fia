@@ -1,0 +1,27 @@
+AppBundle\Entity\TblPuestos:
+    type: entity
+    table: tbl_puestos
+    uniqueConstraints:
+        tbl_puestos_pk:
+            columns:
+                - idpuesto
+    id:
+        idpuesto:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombrepuesto:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+        descripcionpuesto:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+    lifecycleCallbacks: {  }

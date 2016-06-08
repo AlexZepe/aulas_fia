@@ -1,0 +1,43 @@
+AppBundle\Entity\TblCursos:
+    type: entity
+    table: tbl_cursos
+    indexes:
+        cursos_ciclos_fk:
+            columns:
+                - idciclo
+        cursos_materias_fk:
+            columns:
+                - idmateria
+    uniqueConstraints:
+        tbl_cursos_pk:
+            columns:
+                - idcurso
+    id:
+        idcurso:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+    manyToOne:
+        idciclo:
+            targetEntity: TblCiclos
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idciclo:
+                    referencedColumnName: idciclo
+            orphanRemoval: false
+        idmateria:
+            targetEntity: TblMaterias
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idmateria:
+                    referencedColumnName: idmateria
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

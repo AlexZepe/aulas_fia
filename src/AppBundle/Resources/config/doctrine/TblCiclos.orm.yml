@@ -1,0 +1,31 @@
+AppBundle\Entity\TblCiclos:
+    type: entity
+    table: tbl_ciclos
+    uniqueConstraints:
+        tbl_ciclos_pk:
+            columns:
+                - idciclo
+    id:
+        idciclo:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        aniociclo:
+            type: integer
+            nullable: false
+            unsigned: false
+        numerociclo:
+            type: integer
+            nullable: false
+            unsigned: false
+        fechainicio:
+            type: date
+            nullable: false
+        fechafin:
+            type: date
+            nullable: false
+    lifecycleCallbacks: {  }

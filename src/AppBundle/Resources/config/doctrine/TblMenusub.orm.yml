@@ -1,0 +1,51 @@
+AppBundle\Entity\TblMenusub:
+    type: entity
+    table: tbl_menusub
+    indexes:
+        fk_submenu_menu_fk:
+            columns:
+                - tbl_idmenu
+    uniqueConstraints:
+        tbl_menusub_pk:
+            columns:
+                - idsubmenu
+        ak_fk_submenu_menu_tbl_menu:
+            columns:
+                - idmenu
+    id:
+        idsubmenu:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        idmenu:
+            type: integer
+            nullable: false
+            unsigned: false
+        nombresubmenu:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+        url:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+        fechaalta:
+            type: date
+            nullable: true
+    manyToOne:
+        tblmenu:
+            targetEntity: TblMenus
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                tbl_idmenu:
+                    referencedColumnName: idmenu
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

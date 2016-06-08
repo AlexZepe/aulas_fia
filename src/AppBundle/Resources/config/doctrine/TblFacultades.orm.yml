@@ -1,0 +1,32 @@
+AppBundle\Entity\TblFacultades:
+    type: entity
+    table: tbl_facultades
+    uniqueConstraints:
+        tbl_facultades_pk:
+            columns:
+                - idfacultad
+    id:
+        idfacultad:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombrefacultad:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+        siglasfacultad:
+            type: string
+            nullable: false
+            length: 25
+            fixed: false
+        descripcionfacultad:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+    lifecycleCallbacks: {  }

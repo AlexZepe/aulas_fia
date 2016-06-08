@@ -1,0 +1,46 @@
+AppBundle\Entity\TblEscuelas:
+    type: entity
+    table: tbl_escuelas
+    indexes:
+        escuelas_facultades_fk:
+            columns:
+                - idfacultad
+    uniqueConstraints:
+        tbl_escuelas_pk:
+            columns:
+                - idescuela
+    id:
+        idescuela:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombreescuela:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+        siglasescuela:
+            type: string
+            nullable: true
+            length: 25
+            fixed: false
+        descripcionescuela:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+    manyToOne:
+        idfacultad:
+            targetEntity: TblFacultades
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idfacultad:
+                    referencedColumnName: idfacultad
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

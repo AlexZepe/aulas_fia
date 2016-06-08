@@ -1,0 +1,52 @@
+AppBundle\Entity\TblAulas:
+    type: entity
+    table: tbl_aulas
+    indexes:
+        tipos_aulas_fk:
+            columns:
+                - idtipoaula
+        aulas_estados_fk:
+            columns:
+                - idestadoaula
+    uniqueConstraints:
+        tbl_aulas_pk:
+            columns:
+                - idaula
+    id:
+        idaula:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombreaula:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+        capacidadaula:
+            type: integer
+            nullable: true
+            unsigned: false
+    manyToOne:
+        idestadoaula:
+            targetEntity: TblEstadosAulas
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idestadoaula:
+                    referencedColumnName: idestadoaula
+            orphanRemoval: false
+        idtipoaula:
+            targetEntity: TblTiposAulas
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idtipoaula:
+                    referencedColumnName: idtipoaula
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,30 @@
+AppBundle\Entity\TblPerfil:
+    type: entity
+    table: tbl_perfil
+    uniqueConstraints:
+        tbl_perfil_pk:
+            columns:
+                - idperfil
+    id:
+        idperfil:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombreperfil:
+            type: string
+            nullable: true
+            length: 50
+            fixed: false
+        descripcion:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+        fechaalta:
+            type: date
+            nullable: true
+    lifecycleCallbacks: {  }

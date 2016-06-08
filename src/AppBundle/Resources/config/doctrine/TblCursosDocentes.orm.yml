@@ -1,0 +1,48 @@
+AppBundle\Entity\TblCursosDocentes:
+    type: entity
+    table: tbl_cursos_docentes
+    indexes:
+        docentes_cursos_fk:
+            columns:
+                - idcurso
+        docentes_empleados_fk:
+            columns:
+                - idempleado
+    uniqueConstraints:
+        tbl_cursos_docentes_pk:
+            columns:
+                - idcursodocente
+    id:
+        idcursodocente:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        cargo:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+    manyToOne:
+        idcurso:
+            targetEntity: TblCursos
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idcurso:
+                    referencedColumnName: idcurso
+            orphanRemoval: false
+        idempleado:
+            targetEntity: TblEmpleados
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idempleado:
+                    referencedColumnName: idempleado
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

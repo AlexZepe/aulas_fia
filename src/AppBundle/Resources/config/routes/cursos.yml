@@ -1,0 +1,35 @@
+cursos_index:
+    path:     /index
+    defaults: { _controller: AppBundle:Cursos:index }
+
+cursos_new:
+    path:     /new
+    defaults: { _controller: AppBundle:Cursos:new }
+
+cursos_find:
+    path:     /find/{idfac, idEsc, anioCic, numCic}
+    defaults: { _controller: AppBundle:Cursos:findCursos }
+
+cursos_add_curso_docente:
+    path:     /save/{idCurso}
+    defaults: { _controller: AppBundle:Cursos:saveCursoDocente }
+
+cursos_add_actividad:
+    path:     /saveActividad/{idCurso}
+    defaults: { _controller: AppBundle:Cursos:saveActividad }        
+
+cursos_gest_docentes:
+    path:     /gestionarDocentes/{idCurso}
+    defaults: { _controller: AppBundle:Cursos:gestionarDocentes }
+
+cursos_gest_docentes_add:
+    path:     /gestionarDocentesAdd/{idCurso}
+    defaults: { _controller: AppBundle:Cursos:gestionarDocentesAdd }
+
+cursos_gest_actividades:
+    path:     /gestionarActividades/{idCurso}
+    defaults: { _controller: AppBundle:Cursos:gestionarActividades }
+
+cursos_gest_actividades_add:
+    path:     /gestionarActividadesAdd/{idCurso}
+    defaults: { _controller: AppBundle:Cursos:gestionarActividadesAdd }  

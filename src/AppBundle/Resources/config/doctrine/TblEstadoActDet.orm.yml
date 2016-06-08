@@ -1,0 +1,27 @@
+AppBundle\Entity\TblEstadoActDet:
+    type: entity
+    table: tbl_estado_act_det
+    uniqueConstraints:
+        tbl_estado_act_det_pk:
+            columns:
+                - idestadoactdet
+    id:
+        idestadoactdet:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombreestadoactdet:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+        descripcionestadoactdet:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+    lifecycleCallbacks: {  }

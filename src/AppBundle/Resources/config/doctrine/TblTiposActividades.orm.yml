@@ -1,0 +1,27 @@
+AppBundle\Entity\TblTiposActividades:
+    type: entity
+    table: tbl_tipos_actividades
+    uniqueConstraints:
+        tbl_tipos_actividades_pk:
+            columns:
+                - idtipoactividad
+    id:
+        idtipoactividad:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombretipoactividad:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+        descripciontipoactividad:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+    lifecycleCallbacks: {  }

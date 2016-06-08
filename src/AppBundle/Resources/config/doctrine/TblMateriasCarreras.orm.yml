@@ -1,0 +1,48 @@
+AppBundle\Entity\TblMateriasCarreras:
+    type: entity
+    table: tbl_materias_carreras
+    indexes:
+        materias_carreras_fk:
+            columns:
+                - idcarrera
+        carreras_materias_fk:
+            columns:
+                - idmateria
+    uniqueConstraints:
+        tbl_materias_carreras_pk:
+            columns:
+                - idmateria
+                - idmateriacarrera
+    id:
+        idmateriacarrera:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+    fields:
+        codigocarrera:
+            type: string
+            nullable: false
+            length: 25
+            fixed: false
+    oneToOne:
+        idmateria:
+            targetEntity: TblMaterias
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idmateria:
+                    referencedColumnName: idmateria
+            orphanRemoval: false
+    manyToOne:
+        idcarrera:
+            targetEntity: TblCarreras
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idcarrera:
+                    referencedColumnName: idcarrera
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

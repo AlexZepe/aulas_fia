@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <h1 class="text-center">Detalle Materia</h1>
+
+            <br/>
+            <form class="form-horizontal" role="form">
+
+                <div class="form-group">                     
+                    <label class="col-sm-2 control-label">Id</label>
+                    <div class="col-sm-10">
+                        <label class="form-control">{{ tblMateria.idmateria }}</label>
+                    </div>
+                </div>
+
+                <div class="form-group">                     
+                    <label class="col-sm-2 control-label">Nombre</label>
+                    <div class="col-sm-10">
+                        <label class="form-control">{{ tblMateria.nombremateria }}</label>
+                    </div>
+                </div>
+
+                <div class="form-group">                     
+                    <label class="col-sm-2 control-label">Código</label>
+                    <div class="col-sm-10">
+                        <label class="form-control">{{ tblMateria.codigomateria }}</label>
+                    </div>
+                </div>
+
+                <div class="form-group">                     
+                    <label class="col-sm-2 control-label">Escuela</label>
+                    <div class="col-sm-10">
+                        <label class="form-control">{{ tblMateria.idescuela.nombreescuela }}</label>
+                    </div>
+                </div>
+
+                <div class="form-group">                     
+                    <label class="col-sm-2 control-label">Descripción</label>
+                    <div class="col-sm-10">
+                        <label class="form-control">{{ tblMateria.descripcionmateria }}</label>
+                    </div>
+                </div>
+                
+            </form>         
+            
+            <div class="text-right">
+                    <input class="btn btn-success" type="submit" onclick="window.close()" value="Regresar">
+            </div>
+
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+{% endblock %}
