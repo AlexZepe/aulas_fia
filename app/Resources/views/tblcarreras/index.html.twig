@@ -1,74 +1,83 @@
 {% extends 'AppBundle:Inicio:inicio.html.twig' %}
 
 {% block body %}
-    {{ parent() }}
+  {{ parent() }}
 
-    <div class="row">
-      <div class="col-md-2"></div>
-      
-      <div class="col-md-8">
+  <div class="row">
+    <div class="col-md-1"></div>
+    
+    <div class="col-md-10">
 
-        <h1>
-          Carreras   
-          <div class="pull-right">
-            <a class="btn btn-info" href="" onclick="return modalillo('{{ path('tblcarreras_new') }}','height=350,width=800')">Nueva Carrera</a>
+      <h1>
+        Carreras   
+        <div class="pull-right">
+          <a class="btn btn-info" href="" onclick="return modalillo('{{ path('tblcarreras_new') }}','height=350,width=800')">Nueva Carrera</a>
         </div>
-    </h1>
+      </h1>
 
 
-    <div class="clearfix"></div>
+      <div class="clearfix"></div>
 
-    <br />
-    <br />
+      <br />
+      <br />
 
-    <table id="dataTable" class="display">
+      <table id="dataTable" class="display">
         <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Codigo</th>
-                <th>Escuela</th>             
-                <th>Descripción</th>
-                <th class="text-center" >Acciones</th>
-            </tr>
+          <tr>
+            <th></th>
+            <th>Nombre</th>
+            <th>Codigo</th>
+            <th>Escuela</th>             
+            <th>Descripción</th>
+            <th class="text-center" >Acciones</th>
+          </tr>
         </thead>
         <tbody>
-            {% for tblCarrera in tblCarreras %}
-                <tr>    
-                    <td>{{ tblCarrera.nombrecarrera }}</td>
-                    <td>{{ tblCarrera.codigocarrera }}</td>
-                    <td>{{ tblCarrera.idescuela.nombreescuela }}</td>
-                    <td>{{ tblCarrera.descripcioncarrera }}</td>
-                    <td class="text-center">
+          {% for tblCarrera in tblCarreras %}
+            <tr>
+              <td></td>    
+              <td>{{ tblCarrera.nombrecarrera }}</td>
+              <td>{{ tblCarrera.codigocarrera }}</td>
+              <td>{{ tblCarrera.idescuela.nombreescuela }}</td>
+              <td>{{ tblCarrera.descripcioncarrera }}</td>
+              <td class="text-center">
 
-                      <a class="btn btn-default" href="" onclick="return modalillo('{{ path('tblcarreras_show', { 'id': tblCarrera.idcarrera }) }}','height=420,width=800')" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
-                      <a class="btn btn-default" href="" onclick="return modalillo('{{ path('tblcarreras_edit', { 'id': tblCarrera.idcarrera }) }}','height=350,width=800')" ><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-                      <a class="btn btn-default" href="" onclick="return modalillo('{{ path('tblcarreras_sup', { 'id': tblCarrera.idcarrera }) }}','height=420,width=800')" ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
-                      
-                  </td>
-              </tr>
+                <a class="btn btn-default" href="" onclick="return modalillo('{{ path('tblcarreras_show', { 'id': tblCarrera.idcarrera }) }}','height=420,width=800')" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
+                <a class="btn btn-default" href="" onclick="return modalillo('{{ path('tblcarreras_edit', { 'id': tblCarrera.idcarrera }) }}','height=350,width=800')" ><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                <a class="btn btn-default" href="" onclick="return modalillo('{{ path('tblcarreras_sup', { 'id': tblCarrera.idcarrera }) }}','height=420,width=800')" ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                
+              </td>
+            </tr>
           {% endfor %}
-      </tbody>
-  </table>
+        </tbody>
+      </table>
 
-</div>
+    </div>
 
-<div class="col-md-2"></div>
-</div>
+    <div class="col-md-1"></div>
+  </div>
 
-<!--JAVASCRIPT PARA POPUP Y DATATABLES-->
-{% block javascripts %}
+  <!--JAVASCRIPT PARA POPUP Y DATATABLES-->
+  {% block javascripts %}
     {{ parent() }}
     <script language='Javascript' type='text/javascript'>
-        
-        function modalillo(url, propiedades) {
-          newwindow=window.open(url,'name',propiedades);
-          if (window.focus) {newwindow.focus()}
-              return false;
+      
+      function modalillo(url, propiedades) {
+        newwindow=window.open(url,'name',propiedades);
+        if (window.focus) {newwindow.focus()}
+          return false;
       }
 
-
       $(document).ready(function() {
-        $('#dataTable').dataTable( {
+        var t = $('#dataTable').DataTable( {
+          "columnDefs": [ {
+            "searchable": false,
+            "orderable": false,
+            "targets": 0
+          } ],
+          "order": [[ 1, 'asc' ]],
+          "bDestroy": true,            
+          ordering:  false,
           destroy: true,
           "language": {
             "sProcessing":     "Procesando...",
@@ -84,20 +93,26 @@
             "sInfoThousands":  ",",
             "sLoadingRecords": "Cargando...",
             "oPaginate": {
-                "sFirst":    "Primero",
-                "sLast":     "Último",
-                "sNext":     "Siguiente",
-                "sPrevious": "Anterior"
+              "sFirst":    "Primero",
+              "sLast":     "Último",
+              "sNext":     "Siguiente",
+              "sPrevious": "Anterior"
             },
             "oAria": {
-                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+              "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+              "sSortDescending": ": Activar para ordenar la columna de manera descendente"
             }
-        }
-    });
-    });
+          }
+        } );
 
-  </script> 
-{% endblock %}
+        t.on( 'order.dt search.dt', function () {
+          t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+          } );
+        } ).draw();
+      } );
+
+    </script> 
+  {% endblock %}
 
 {% endblock %}

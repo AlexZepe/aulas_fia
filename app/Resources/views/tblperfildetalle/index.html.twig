@@ -2,16 +2,16 @@
 
 {% block body %}
 
-    {{ parent() }}
+  {{ parent() }}
 
-    <div class="row">
-      <div class="col-md-2"></div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    
+    <div class="col-md-10">
+
+     <h1>
+      Perfil Detalle  
       
-      <div class="col-md-8">
-
-       <h1>
-          Perfil Detalle  
-        
     </h1>
 
 
@@ -21,81 +21,97 @@
     <br />
 
     <table id="dataTable" class="display">
-        <thead>
-            <tr>
-                <th>Perfil</th>
-                <th>Menu</th>
-                <th>Sub Menu</th>
-                <th>Comentario</th>
-                <th>Fecha Alta</th>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Perfil</th>
+          <th>Menu</th>
+          <th>Sub Menu</th>
+          <th>Comentario</th>
+          <th>Fecha Alta</th>
 
-                <th class="text-center" >Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for tblPerfildetalle in tblPerfildetalles %}
-                <tr>    
-                    <td>{{ tblPerfildetalle.idperfildetalle }}</td>
-                    <td>{{ tblPerfildetalle.idmenu }}</td>
-                    <td>{{ tblPerfildetalle.idsubmenu }}</td>
-                    <td>{{ tblPerfildetalle.comentario }}</td>
-                    <td>{% if tblPerfildetalle.fechaalta %}{{ tblPerfildetalle.fechaalta|date('Y-m-d') }}{% endif %}</td>
-                    <td class="text-center">
+          <th class="text-center" >Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tblPerfildetalle in tblPerfildetalles %}
+          <tr>
+            <td></td>    
+            <td>{{ tblPerfildetalle.idperfildetalle }}</td>
+            <td>{{ tblPerfildetalle.idmenu }}</td>
+            <td>{{ tblPerfildetalle.idsubmenu }}</td>
+            <td>{{ tblPerfildetalle.comentario }}</td>
+            <td>{% if tblPerfildetalle.fechaalta %}{{ tblPerfildetalle.fechaalta|date('Y-m-d') }}{% endif %}</td>
+            <td class="text-center">
 
-                      <a class="btn btn-default" href="" onclick="return modalillo('{{ path('tblperfildetalle_show', { 'id': tblPerfildetalle.idperfildetalle }) }}','height=500,width=800')" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>                     
-                      
-                  </td>
-              </tr>
-          {% endfor %}
+              <a class="btn btn-default" href="" onclick="return modalillo('{{ path('tblperfildetalle_show', { 'id': tblPerfildetalle.idperfildetalle }) }}','height=500,width=800')" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>                     
+              
+            </td>
+          </tr>
+        {% endfor %}
       </tbody>
-  </table>
+    </table>
 
-</div>
+  </div>
 
-<div class="col-md-2"></div>
+  <div class="col-md-10"></div>
 </div>
 
 <!--JAVASCRIPT PARA POPUP Y DATATABLES-->
 {% block javascripts %}
-    {{ parent() }}
-    <script language='Javascript' type='text/javascript'>
-        
-        function modalillo(url, propiedades) {
-          newwindow=window.open(url,'name',propiedades);
-          if (window.focus) {newwindow.focus()}
-              return false;
-      }
+  {{ parent() }}
+  <script language='Javascript' type='text/javascript'>
+    
+    function modalillo(url, propiedades) {
+      newwindow=window.open(url,'name',propiedades);
+      if (window.focus) {newwindow.focus()}
+        return false;
+    }
 
 
-      $(document).ready(function() {
-        $('#dataTable').dataTable( {
-          destroy: true,
-          "language": {
-            "sProcessing":     "Procesando...",
-            "sLengthMenu":     "Mostrar _MENU_ registros",
-            "sZeroRecords":    "No se encontraron resultados",
-            "sEmptyTable":     "Ningún dato disponible en esta tabla",
-            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix":    "",
-            "sSearch":         "Buscar:",
-            "sUrl":            "",
-            "sInfoThousands":  ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst":    "Primero",
-                "sLast":     "Último",
-                "sNext":     "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            }
+    $(document).ready(function() {
+      var t = $('#dataTable').DataTable( {
+        "columnDefs": [ {
+          "searchable": false,
+          "orderable": false,
+          "targets": 0
+        } ],
+        "order": [[ 1, 'asc' ]],
+        "bDestroy": true,            
+        ordering:  false,
+        destroy: true,
+        "language": {
+          "sProcessing":     "Procesando...",
+          "sLengthMenu":     "Mostrar _MENU_ registros",
+          "sZeroRecords":    "No se encontraron resultados",
+          "sEmptyTable":     "Ningún dato disponible en esta tabla",
+          "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+          "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+          "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+          "sInfoPostFix":    "",
+          "sSearch":         "Buscar:",
+          "sUrl":            "",
+          "sInfoThousands":  ",",
+          "sLoadingRecords": "Cargando...",
+          "oPaginate": {
+            "sFirst":    "Primero",
+            "sLast":     "Último",
+            "sNext":     "Siguiente",
+            "sPrevious": "Anterior"
+          },
+          "oAria": {
+            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+          }
         }
-    });
-    });
+      } );
+
+      t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+          cell.innerHTML = i+1;
+        } );
+      } ).draw();
+    } );
 
   </script> 
 {% endblock %}
