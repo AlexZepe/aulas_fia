@@ -25,57 +25,74 @@ class TblPerfilController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
         $tblPerfils = $em->getRepository('AppBundle:TblPerfil')->findAll();
 
         $session = $request->getSession();
         if($session->has("id")){
+            $em = $this->getDoctrine()->getManager();            
+            $db = $em->getConnection();
             $menuList = array();
             $subMenuList = array();
-            $menusList = $this->getDoctrine()->getEntityManager()->createQuery("SELECT m  
-                FROM AppBundle:TblMenus m 
-                ,AppBundle:TblPerfildetalle pd 
-                ,AppBundle:TblPerfil p  
-                ,AppBundle:TblUsuariosperfiles up  
-                WHERE up.idusuario = :pIdUsuario
-                AND pd.idmenu IS NOT NULL
-                and pd.idmenu = m.idmenu
-                and p.idperfil = pd.idperfil
-                and up.idperfil = p.idperfil
-                ORDER BY m.nombremenu ASC")->setParameters(array('pIdUsuario'=>$session->get('id')))->getResult();
+            
+            $iduser = $session->get('id');
+            $query = "Select * FROM tbl_menus m,
+            tbl_perfildetalle pd,
+            tbl_perfil p,
+            tbl_usuariosperfiles up 
+            where up.idusuario=$iduser
+            and pd.idmenu is not null
+            and pd.idmenu=m.idmenu
+            and p.idperfil=pd.idperfil
+            and up. idperfil = p.idperfil
+            ORDER BY m.nombremenu ASC";
+            $stmt = $db->prepare($query);
+            $params = array();
+            $stmt->execute($params);
+            $menusList=$stmt->fetchAll();
+
             if($menusList){
-                foreach ($menusList as $menuIter) {
-                    $subMenu = $this->getDoctrine()->getEntityManager()->createQuery("SELECT sm
-                        FROM AppBundle:TblMenus m 
-                        ,AppBundle:TblMenusub sm
-                        ,AppBundle:TblPerfildetalle pd
-                        ,AppBundle:TblPerfil p
-                        ,AppBundle:TblUsuariosperfiles up 
-                        WHERE up.idusuario = :pIdUsuario
-                        AND m.idmenu = :pIdMenu
-                        AND pd.idsubmenu IS NOT NULL
-                        and sm.idmenu = m.idmenu
-                        and pd.idsubmenu = sm.idsubmenu
-                        and p.idperfil = pd.idperfil
-                        and up.idperfil = p.idperfil
-                        ORDER BY sm.nombresubmenu ASC")->setParameters(array('pIdUsuario'=>$session->get('id'),'pIdMenu'=>$menuIter->getIdmenu()))->getResult();
+                foreach ($menusList as $menuIter) {         
+
+                    $emp = $this->getDoctrine()->getManager();            
+                    $dbp = $emp->getConnection();
+                    
+                    $iduser = $session->get('id');
+                    $imenu = $menuIter["idmenu"];
+
+                    $queryp = "Select * FROM tbl_menus m,
+                    tbl_menusub sm,
+                    tbl_perfildetalle pd,
+                    tbl_perfil p,
+                    tbl_usuariosperfiles up 
+                    where up.idusuario=$iduser
+                    and m.idmenu =$imenu
+                    and pd.idsubmenu is not null
+                    and sm.idmenu = m.idmenu
+                    and p.idperfil=pd.idperfil
+                    and up. idperfil = p.idperfil
+                    ORDER BY sm.nombresubmenu ASC";
+                    $stmtp = $dbp->prepare($queryp);
+                    $paramsp = array();
+                    $stmtp->execute($paramsp);
+                    $subMenu=$stmtp->fetchAll();
+
                     if($subMenu){
                         foreach ($subMenu as $sm) {
                             array_push($subMenuList,$sm);
                         }
                     }
+
                     array_push($menuList,$menuIter);
                 }
-
-                return $this->render('tblperfil/index.html.twig',array(
+                return $this->render('tblperfil/index.html.twig', array(
                     'tblPerfils' => $tblPerfils,
                     'menuList'=>$menuList,
-                    'subMenuList'=>$subMenuList,
+                    'subMenuList'=>$subMenuList
                     ));
             }
         }else{
             $this->get("session")->getFlashBag()->add("mensaje","Debe estar logueado para ver este contenido."); 
-               return $this->redirect($this->generateUrl("login"));
+            return $this->redirect($this->generateUrl("login"));
         }
     }
 
@@ -97,16 +114,16 @@ class TblPerfilController extends Controller
             $em->flush();
 
             echo "<script language='Javascript' type='text/javascript'>
-              window.opener.location='../tblperfil'
-              window.close()
-             </script>";
-        }
-
-        return $this->render('tblperfil/new.html.twig', array(
-            'tblPerfil' => $tblPerfil,
-            'form' => $form->createView(),
-        ));
+            window.opener.location='../tblperfil'
+            window.close()
+        </script>";
     }
+
+    return $this->render('tblperfil/new.html.twig', array(
+        'tblPerfil' => $tblPerfil,
+        'form' => $form->createView(),
+        ));
+}
 
     /**
      * Finds and displays a TblPerfil entity.
@@ -121,7 +138,7 @@ class TblPerfilController extends Controller
         return $this->render('tblperfil/show.html.twig', array(
             'tblPerfil' => $tblPerfil,
             'delete_form' => $deleteForm->createView(),
-        ));
+            ));
     }
 
     /**
@@ -142,17 +159,17 @@ class TblPerfilController extends Controller
             $em->flush();
 
             echo "<script language='Javascript' type='text/javascript'>
-              window.opener.location='../../tblperfil'
-              window.close()
-             </script>";
-        }
-
-        return $this->render('tblperfil/edit.html.twig', array(
-            'tblPerfil' => $tblPerfil,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+            window.opener.location='../../tblperfil'
+            window.close()
+        </script>";
     }
+
+    return $this->render('tblperfil/edit.html.twig', array(
+        'tblPerfil' => $tblPerfil,
+        'edit_form' => $editForm->createView(),
+        'delete_form' => $deleteForm->createView(),
+        ));
+}
 
     /**
      * Deletes a TblPerfil entity.
@@ -172,10 +189,10 @@ class TblPerfilController extends Controller
         }
 
         echo "<script language='Javascript' type='text/javascript'>
-              window.opener.location='../tblperfil'
-              window.close()
-             </script>";
-    }
+        window.opener.location='../tblperfil'
+        window.close()
+    </script>";
+}
 
     /**
      * Creates a form to delete a TblPerfil entity.
@@ -187,9 +204,9 @@ class TblPerfilController extends Controller
     private function createDeleteForm(TblPerfil $tblPerfil)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('tblperfil_delete', array('id' => $tblPerfil->getIdperfil())))
-            ->setMethod('DELETE')
-            ->getForm()
+        ->setAction($this->generateUrl('tblperfil_delete', array('id' => $tblPerfil->getIdperfil())))
+        ->setMethod('DELETE')
+        ->getForm()
         ;
     }
 
@@ -206,6 +223,6 @@ class TblPerfilController extends Controller
         return $this->render('tblperfil/sup.html.twig', array(
             'tblPerfil' => $tblPerfil,
             'delete_form' => $deleteForm->createView(),
-        ));
+            ));
     }
 }

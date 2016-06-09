@@ -29,52 +29,70 @@ class TblFacultadesController extends Controller
 
         $session = $request->getSession();
         if($session->has("id")){
+            $em = $this->getDoctrine()->getManager();            
+            $db = $em->getConnection();
             $menuList = array();
             $subMenuList = array();
-            $menusList = $this->getDoctrine()->getEntityManager()->createQuery("SELECT m  
-                FROM AppBundle:TblMenus m 
-                ,AppBundle:TblPerfildetalle pd 
-                ,AppBundle:TblPerfil p  
-                ,AppBundle:TblUsuariosperfiles up  
-                WHERE up.idusuario = :pIdUsuario
-                AND pd.idmenu IS NOT NULL
-                and pd.idmenu = m.idmenu
-                and p.idperfil = pd.idperfil
-                and up.idperfil = p.idperfil
-                ORDER BY m.nombremenu ASC")->setParameters(array('pIdUsuario'=>$session->get('id')))->getResult();
+            
+            $iduser = $session->get('id');
+            $query = "Select * FROM tbl_menus m,
+            tbl_perfildetalle pd,
+            tbl_perfil p,
+            tbl_usuariosperfiles up 
+            where up.idusuario=$iduser
+            and pd.idmenu is not null
+            and pd.idmenu=m.idmenu
+            and p.idperfil=pd.idperfil
+            and up. idperfil = p.idperfil
+            ORDER BY m.nombremenu ASC";
+            $stmt = $db->prepare($query);
+            $params = array();
+            $stmt->execute($params);
+            $menusList=$stmt->fetchAll();
+
             if($menusList){
-                foreach ($menusList as $menuIter) {
-                    $subMenu = $this->getDoctrine()->getEntityManager()->createQuery("SELECT sm
-                        FROM AppBundle:TblMenus m 
-                        ,AppBundle:TblMenusub sm
-                        ,AppBundle:TblPerfildetalle pd
-                        ,AppBundle:TblPerfil p
-                        ,AppBundle:TblUsuariosperfiles up 
-                        WHERE up.idusuario = :pIdUsuario
-                        AND m.idmenu = :pIdMenu
-                        AND pd.idsubmenu IS NOT NULL
-                        and sm.idmenu = m.idmenu
-                        and pd.idsubmenu = sm.idsubmenu
-                        and p.idperfil = pd.idperfil
-                        and up.idperfil = p.idperfil
-                        ORDER BY sm.nombresubmenu ASC")->setParameters(array('pIdUsuario'=>$session->get('id'),'pIdMenu'=>$menuIter->getIdmenu()))->getResult();
+                foreach ($menusList as $menuIter) {         
+
+                    $emp = $this->getDoctrine()->getManager();            
+                    $dbp = $emp->getConnection();
+                    
+                    $iduser = $session->get('id');
+                    $imenu = $menuIter["idmenu"];
+
+                    $queryp = "Select * FROM tbl_menus m,
+                    tbl_menusub sm,
+                    tbl_perfildetalle pd,
+                    tbl_perfil p,
+                    tbl_usuariosperfiles up 
+                    where up.idusuario=$iduser
+                    and m.idmenu =$imenu
+                    and pd.idsubmenu is not null
+                    and sm.idmenu = m.idmenu
+                    and p.idperfil=pd.idperfil
+                    and up. idperfil = p.idperfil
+                    ORDER BY sm.nombresubmenu ASC";
+                    $stmtp = $dbp->prepare($queryp);
+                    $paramsp = array();
+                    $stmtp->execute($paramsp);
+                    $subMenu=$stmtp->fetchAll();
+
                     if($subMenu){
                         foreach ($subMenu as $sm) {
                             array_push($subMenuList,$sm);
                         }
                     }
+
                     array_push($menuList,$menuIter);
                 }
-
                 return $this->render('tblfacultades/index.html.twig', array(
                     'tblFacultades' => $tblFacultades,
                     'menuList'=>$menuList,
-                    'subMenuList'=>$subMenuList,
+                    'subMenuList'=>$subMenuList
                     ));
             }
         }else{
             $this->get("session")->getFlashBag()->add("mensaje","Debe estar logueado para ver este contenido."); 
-               return $this->redirect($this->generateUrl("login"));
+            return $this->redirect($this->generateUrl("login"));
         }
     }
 
@@ -96,16 +114,16 @@ class TblFacultadesController extends Controller
             $em->flush();
 
             echo "<script language='Javascript' type='text/javascript'>
-              window.opener.location='../tblfacultades'
-              window.close()
-             </script>";
-        }
-
-        return $this->render('tblfacultades/new.html.twig', array(
-            'tblFacultade' => $tblFacultade,
-            'form' => $form->createView(),
-        ));
+            window.opener.location='../tblfacultades'
+            window.close()
+        </script>";
     }
+
+    return $this->render('tblfacultades/new.html.twig', array(
+        'tblFacultade' => $tblFacultade,
+        'form' => $form->createView(),
+        ));
+}
 
     /**
      * Finds and displays a TblFacultades entity.
@@ -120,7 +138,7 @@ class TblFacultadesController extends Controller
         return $this->render('tblfacultades/show.html.twig', array(
             'tblFacultade' => $tblFacultade,
             'delete_form' => $deleteForm->createView(),
-        ));
+            ));
     }
 
     /**
@@ -141,17 +159,17 @@ class TblFacultadesController extends Controller
             $em->flush();
 
             echo "<script language='Javascript' type='text/javascript'>
-              window.opener.location='../../tblfacultades'
-              window.close()
-             </script>";
-        }
-
-        return $this->render('tblfacultades/edit.html.twig', array(
-            'tblFacultade' => $tblFacultade,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+            window.opener.location='../../tblfacultades'
+            window.close()
+        </script>";
     }
+
+    return $this->render('tblfacultades/edit.html.twig', array(
+        'tblFacultade' => $tblFacultade,
+        'edit_form' => $editForm->createView(),
+        'delete_form' => $deleteForm->createView(),
+        ));
+}
 
     /**
      * Deletes a TblFacultades entity.
@@ -171,10 +189,10 @@ class TblFacultadesController extends Controller
         }
 
         echo "<script language='Javascript' type='text/javascript'>
-              window.opener.location='../tblfacultades'
-              window.close()
-             </script>";
-    }
+        window.opener.location='../tblfacultades'
+        window.close()
+    </script>";
+}
 
     /**
      * Creates a form to delete a TblFacultades entity.
@@ -186,9 +204,9 @@ class TblFacultadesController extends Controller
     private function createDeleteForm(TblFacultades $tblFacultade)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('tblfacultades_delete', array('id' => $tblFacultade->getIdfacultad())))
-            ->setMethod('DELETE')
-            ->getForm()
+        ->setAction($this->generateUrl('tblfacultades_delete', array('id' => $tblFacultade->getIdfacultad())))
+        ->setMethod('DELETE')
+        ->getForm()
         ;
     }
 
@@ -205,6 +223,6 @@ class TblFacultadesController extends Controller
         return $this->render('tblfacultades/sup.html.twig', array(
             'tblFacultade' => $tblFacultade,
             'delete_form' => $deleteForm->createView(),
-        ));
+            ));
     }
 }

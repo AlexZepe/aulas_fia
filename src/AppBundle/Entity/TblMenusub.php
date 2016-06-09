@@ -164,4 +164,9 @@ class TblMenusub
     {
         return $this->tblmenu;
     }
+
+    public function __toString()
+    {
+        return strval($this->nombresubmenu);
+    }
 }

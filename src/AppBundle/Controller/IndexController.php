@@ -69,9 +69,6 @@ class IndexController extends Controller
                         }
                     }
 
-                    //print_r($menuList);
-                    //print_r($subMenuList);
-
                     array_push($menuList,$menuIter);
                 }
                 return $this->render('AppBundle:Inicio:inicio.html.twig', array('menuList'=>$menuList,'subMenuList'=>$subMenuList));

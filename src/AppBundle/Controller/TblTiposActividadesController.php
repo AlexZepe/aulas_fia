@@ -29,52 +29,70 @@ class TblTiposActividadesController extends Controller
 
         $session = $request->getSession();
         if($session->has("id")){
+            $em = $this->getDoctrine()->getManager();            
+            $db = $em->getConnection();
             $menuList = array();
             $subMenuList = array();
-            $menusList = $this->getDoctrine()->getEntityManager()->createQuery("SELECT m  
-                FROM AppBundle:TblMenus m 
-                ,AppBundle:TblPerfildetalle pd 
-                ,AppBundle:TblPerfil p  
-                ,AppBundle:TblUsuariosperfiles up  
-                WHERE up.idusuario = :pIdUsuario
-                AND pd.idmenu IS NOT NULL
-                and pd.idmenu = m.idmenu
-                and p.idperfil = pd.idperfil
-                and up.idperfil = p.idperfil
-                ORDER BY m.nombremenu ASC")->setParameters(array('pIdUsuario'=>$session->get('id')))->getResult();
+            
+            $iduser = $session->get('id');
+            $query = "Select * FROM tbl_menus m,
+            tbl_perfildetalle pd,
+            tbl_perfil p,
+            tbl_usuariosperfiles up 
+            where up.idusuario=$iduser
+            and pd.idmenu is not null
+            and pd.idmenu=m.idmenu
+            and p.idperfil=pd.idperfil
+            and up. idperfil = p.idperfil
+            ORDER BY m.nombremenu ASC";
+            $stmt = $db->prepare($query);
+            $params = array();
+            $stmt->execute($params);
+            $menusList=$stmt->fetchAll();
+
             if($menusList){
-                foreach ($menusList as $menuIter) {
-                    $subMenu = $this->getDoctrine()->getEntityManager()->createQuery("SELECT sm
-                        FROM AppBundle:TblMenus m 
-                        ,AppBundle:TblMenusub sm
-                        ,AppBundle:TblPerfildetalle pd
-                        ,AppBundle:TblPerfil p
-                        ,AppBundle:TblUsuariosperfiles up 
-                        WHERE up.idusuario = :pIdUsuario
-                        AND m.idmenu = :pIdMenu
-                        AND pd.idsubmenu IS NOT NULL
-                        and sm.idmenu = m.idmenu
-                        and pd.idsubmenu = sm.idsubmenu
-                        and p.idperfil = pd.idperfil
-                        and up.idperfil = p.idperfil
-                        ORDER BY sm.nombresubmenu ASC")->setParameters(array('pIdUsuario'=>$session->get('id'),'pIdMenu'=>$menuIter->getIdmenu()))->getResult();
+                foreach ($menusList as $menuIter) {         
+
+                    $emp = $this->getDoctrine()->getManager();            
+                    $dbp = $emp->getConnection();
+                    
+                    $iduser = $session->get('id');
+                    $imenu = $menuIter["idmenu"];
+
+                    $queryp = "Select * FROM tbl_menus m,
+                    tbl_menusub sm,
+                    tbl_perfildetalle pd,
+                    tbl_perfil p,
+                    tbl_usuariosperfiles up 
+                    where up.idusuario=$iduser
+                    and m.idmenu =$imenu
+                    and pd.idsubmenu is not null
+                    and sm.idmenu = m.idmenu
+                    and p.idperfil=pd.idperfil
+                    and up. idperfil = p.idperfil
+                    ORDER BY sm.nombresubmenu ASC";
+                    $stmtp = $dbp->prepare($queryp);
+                    $paramsp = array();
+                    $stmtp->execute($paramsp);
+                    $subMenu=$stmtp->fetchAll();
+
                     if($subMenu){
                         foreach ($subMenu as $sm) {
                             array_push($subMenuList,$sm);
                         }
                     }
+
                     array_push($menuList,$menuIter);
                 }
-
                 return $this->render('tbltiposactividades/index.html.twig', array(
                     'tblTiposActividades' => $tblTiposActividades,
                     'menuList'=>$menuList,
-                    'subMenuList'=>$subMenuList,
+                    'subMenuList'=>$subMenuList
                     ));
             }
         }else{
             $this->get("session")->getFlashBag()->add("mensaje","Debe estar logueado para ver este contenido."); 
-               return $this->redirect($this->generateUrl("login"));
+            return $this->redirect($this->generateUrl("login"));
         }
     }
 
@@ -94,20 +112,20 @@ class TblTiposActividadesController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($tblTiposActividade);
             $em->flush();
-        
+            
 
-          echo "<script language='Javascript' type='text/javascript'>
-              window.opener.location='../tbltiposactividades'
-              window.close()
-             </script>";
+            echo "<script language='Javascript' type='text/javascript'>
+            window.opener.location='../tbltiposactividades'
+            window.close()
+        </script>";
 
-        }
-
-        return $this->render('tbltiposactividades/new.html.twig', array(
-            'tblTiposActividade' => $tblTiposActividade,
-            'form' => $form->createView(),
-        ));
     }
+
+    return $this->render('tbltiposactividades/new.html.twig', array(
+        'tblTiposActividade' => $tblTiposActividade,
+        'form' => $form->createView(),
+        ));
+}
 
     /**
      * Finds and displays a TblTiposActividades entity.
@@ -122,7 +140,7 @@ class TblTiposActividadesController extends Controller
         return $this->render('tbltiposactividades/show.html.twig', array(
             'tblTiposActividade' => $tblTiposActividade,
             'delete_form' => $deleteForm->createView(),
-        ));
+            ));
     }
 
     /**
@@ -143,20 +161,20 @@ class TblTiposActividadesController extends Controller
             $em->flush();
 
             echo "<script language='Javascript' type='text/javascript'>
-              window.opener.location='../../tbltiposactividades'
-              window.close()
-             </script>";
+            window.opener.location='../../tbltiposactividades'
+            window.close()
+        </script>";
 
 
             //return $this->redirectToRoute('tbltiposactividades_edit', array('id' => $tblTiposActividade->getIdtipoactividad()));
-        }
-
-        return $this->render('tbltiposactividades/edit.html.twig', array(
-            'tblTiposActividade' => $tblTiposActividade,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
     }
+
+    return $this->render('tbltiposactividades/edit.html.twig', array(
+        'tblTiposActividade' => $tblTiposActividade,
+        'edit_form' => $editForm->createView(),
+        'delete_form' => $deleteForm->createView(),
+        ));
+}
 
     /**
      * Deletes a TblTiposActividades entity.
@@ -175,15 +193,15 @@ class TblTiposActividadesController extends Controller
             $em->flush();
 
             echo "<script language='Javascript' type='text/javascript'>
-              window.opener.location='../tbltiposactividades'
-              window.close()
-             </script>";
+            window.opener.location='../tbltiposactividades'
+            window.close()
+        </script>";
 
-        }
+    }
 
 
     //return $this->redirectToRoute('tbltiposactividades_index');
-    }
+}
 
     /**
      * Creates a form to delete a TblTiposActividades entity.
@@ -195,9 +213,9 @@ class TblTiposActividadesController extends Controller
     private function createDeleteForm(TblTiposActividades $tblTiposActividade)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('tbltiposactividades_delete', array('id' => $tblTiposActividade->getIdtipoactividad())))
-            ->setMethod('DELETE')
-            ->getForm()
+        ->setAction($this->generateUrl('tbltiposactividades_delete', array('id' => $tblTiposActividade->getIdtipoactividad())))
+        ->setMethod('DELETE')
+        ->getForm()
         ;
     }
 
@@ -215,7 +233,7 @@ class TblTiposActividadesController extends Controller
         return $this->render('tbltiposactividades/sup.html.twig', array(
             'tblTiposActividade' => $tblTiposActividade,
             'delete_form' => $deleteForm->createView(),
-        ));
+            ));
     }
 
 }

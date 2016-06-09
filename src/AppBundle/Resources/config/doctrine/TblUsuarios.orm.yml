@@ -27,7 +27,7 @@ AppBundle\Entity\TblUsuarios:
         password:
             type: string
             nullable: true
-            length: 25
+            length: 32
             fixed: false
         vigencia:
             type: integer

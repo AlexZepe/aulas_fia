@@ -25,57 +25,74 @@ class TblEstadosAulasController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
         $tblEstadosAulas = $em->getRepository('AppBundle:TblEstadosAulas')->findAll();
-    
         $session = $request->getSession();
         if($session->has("id")){
+            $em = $this->getDoctrine()->getManager();            
+            $db = $em->getConnection();
             $menuList = array();
             $subMenuList = array();
-            $menusList = $this->getDoctrine()->getEntityManager()->createQuery("SELECT m  
-                FROM AppBundle:TblMenus m 
-                ,AppBundle:TblPerfildetalle pd 
-                ,AppBundle:TblPerfil p  
-                ,AppBundle:TblUsuariosperfiles up  
-                WHERE up.idusuario = :pIdUsuario
-                AND pd.idmenu IS NOT NULL
-                and pd.idmenu = m.idmenu
-                and p.idperfil = pd.idperfil
-                and up.idperfil = p.idperfil
-                ORDER BY m.nombremenu ASC")->setParameters(array('pIdUsuario'=>$session->get('id')))->getResult();
+            
+            $iduser = $session->get('id');
+            $query = "Select * FROM tbl_menus m,
+            tbl_perfildetalle pd,
+            tbl_perfil p,
+            tbl_usuariosperfiles up 
+            where up.idusuario=$iduser
+            and pd.idmenu is not null
+            and pd.idmenu=m.idmenu
+            and p.idperfil=pd.idperfil
+            and up. idperfil = p.idperfil
+            ORDER BY m.nombremenu ASC";
+            $stmt = $db->prepare($query);
+            $params = array();
+            $stmt->execute($params);
+            $menusList=$stmt->fetchAll();
+
             if($menusList){
-                foreach ($menusList as $menuIter) {
-                    $subMenu = $this->getDoctrine()->getEntityManager()->createQuery("SELECT sm
-                        FROM AppBundle:TblMenus m 
-                        ,AppBundle:TblMenusub sm
-                        ,AppBundle:TblPerfildetalle pd
-                        ,AppBundle:TblPerfil p
-                        ,AppBundle:TblUsuariosperfiles up 
-                        WHERE up.idusuario = :pIdUsuario
-                        AND m.idmenu = :pIdMenu
-                        AND pd.idsubmenu IS NOT NULL
-                        and sm.idmenu = m.idmenu
-                        and pd.idsubmenu = sm.idsubmenu
-                        and p.idperfil = pd.idperfil
-                        and up.idperfil = p.idperfil
-                        ORDER BY sm.nombresubmenu ASC")->setParameters(array('pIdUsuario'=>$session->get('id'),'pIdMenu'=>$menuIter->getIdmenu()))->getResult();
+                foreach ($menusList as $menuIter) {         
+
+                    $emp = $this->getDoctrine()->getManager();            
+                    $dbp = $emp->getConnection();
+                    
+                    $iduser = $session->get('id');
+                    $imenu = $menuIter["idmenu"];
+
+                    $queryp = "Select * FROM tbl_menus m,
+                    tbl_menusub sm,
+                    tbl_perfildetalle pd,
+                    tbl_perfil p,
+                    tbl_usuariosperfiles up 
+                    where up.idusuario=$iduser
+                    and m.idmenu =$imenu
+                    and pd.idsubmenu is not null
+                    and sm.idmenu = m.idmenu
+                    and p.idperfil=pd.idperfil
+                    and up. idperfil = p.idperfil
+                    ORDER BY sm.nombresubmenu ASC";
+                    $stmtp = $dbp->prepare($queryp);
+                    $paramsp = array();
+                    $stmtp->execute($paramsp);
+                    $subMenu=$stmtp->fetchAll();
+
                     if($subMenu){
                         foreach ($subMenu as $sm) {
                             array_push($subMenuList,$sm);
                         }
                     }
+
                     array_push($menuList,$menuIter);
                 }
-
                 return $this->render('tblestadosaulas/index.html.twig', array(
-            'tblEstadosAulas' => $tblEstadosAulas,
+                    'tblEstadosAulas' => $tblEstadosAulas,
                     'menuList'=>$menuList,
-                    'subMenuList'=>$subMenuList,
+                    'subMenuList'=>$subMenuList
                     ));
             }
+            
         }else{
             $this->get("session")->getFlashBag()->add("mensaje","Debe estar logueado para ver este contenido."); 
-               return $this->redirect($this->generateUrl("login"));
+            return $this->redirect($this->generateUrl("login"));
         }
 
     }
@@ -98,16 +115,16 @@ class TblEstadosAulasController extends Controller
             $em->flush();
 
             echo "<script language='Javascript' type='text/javascript'>
-              window.opener.location='../tblestadosaulas'
-              window.close()
-             </script>";
-        }
-
-        return $this->render('tblestadosaulas/new.html.twig', array(
-            'tblEstadosAula' => $tblEstadosAula,
-            'form' => $form->createView(),
-        ));
+            window.opener.location='../tblestadosaulas'
+            window.close()
+        </script>";
     }
+
+    return $this->render('tblestadosaulas/new.html.twig', array(
+        'tblEstadosAula' => $tblEstadosAula,
+        'form' => $form->createView(),
+        ));
+}
 
     /**
      * Finds and displays a TblEstadosAulas entity.
@@ -122,7 +139,7 @@ class TblEstadosAulasController extends Controller
         return $this->render('tblestadosaulas/show.html.twig', array(
             'tblEstadosAula' => $tblEstadosAula,
             'delete_form' => $deleteForm->createView(),
-        ));
+            ));
     }
 
     /**
@@ -143,17 +160,17 @@ class TblEstadosAulasController extends Controller
             $em->flush();
 
             echo "<script language='Javascript' type='text/javascript'>
-              window.opener.location='../../tblestadosaulas'
-              window.close()
-             </script>";
-        }
-
-        return $this->render('tblestadosaulas/edit.html.twig', array(
-            'tblEstadosAula' => $tblEstadosAula,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+            window.opener.location='../../tblestadosaulas'
+            window.close()
+        </script>";
     }
+
+    return $this->render('tblestadosaulas/edit.html.twig', array(
+        'tblEstadosAula' => $tblEstadosAula,
+        'edit_form' => $editForm->createView(),
+        'delete_form' => $deleteForm->createView(),
+        ));
+}
 
     /**
      * Deletes a TblEstadosAulas entity.
@@ -173,11 +190,11 @@ class TblEstadosAulasController extends Controller
         }
 
         echo "<script language='Javascript' type='text/javascript'>
-              window.opener.location='../tblestadosaulas'
-              window.close()
-             </script>";
+        window.opener.location='../tblestadosaulas'
+        window.close()
+    </script>";
 
-    }
+}
 
     /**
      * Creates a form to delete a TblEstadosAulas entity.
@@ -189,9 +206,9 @@ class TblEstadosAulasController extends Controller
     private function createDeleteForm(TblEstadosAulas $tblEstadosAula)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('tblestadosaulas_delete', array('id' => $tblEstadosAula->getIdestadoaula())))
-            ->setMethod('DELETE')
-            ->getForm()
+        ->setAction($this->generateUrl('tblestadosaulas_delete', array('id' => $tblEstadosAula->getIdestadoaula())))
+        ->setMethod('DELETE')
+        ->getForm()
         ;
     }
 
@@ -208,6 +225,6 @@ class TblEstadosAulasController extends Controller
         return $this->render('tblestadosaulas/sup.html.twig', array(
             'tblEstadosAula' => $tblEstadosAula,
             'delete_form' => $deleteForm->createView(),
-        ));
+            ));
     }
 }
