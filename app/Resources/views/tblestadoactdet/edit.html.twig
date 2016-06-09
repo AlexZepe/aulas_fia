@@ -8,24 +8,26 @@
         <div class="col-md-8">
             <h1 class="text-center">Editar Estado Actividad</h1>
             <br/>
-            {{ form_start(edit_form, { 'attr': {'class': 'form-horizontal', 'role':'form'} }) }}
+            {{ form_start(edit_form, { 'attr': {'novalidate':'novalidate', 'class': 'form-horizontal', 'role':'form'} }) }}
 
                 <div class="form-group">
                     {{ form_label(edit_form.nombreestadoactdet, 'Nombre', { 'label_attr': {'class': 'col-sm-2 control-label'} }) }}
                     <div class="col-sm-10">
-                        {{ form_widget(edit_form.nombreestadoactdet, { 'attr': {'class': 'form-control'} }) }}                        
+                        {{ form_widget(edit_form.nombreestadoactdet, { 'attr': {'class': 'form-control'} }) }}
+                        <span class="text-danger" >{{ form_errors(edit_form.nombreestadoactdet) }}</span>                        
                     </div>
                 </div>
 
                 <div class="form-group">
                     {{ form_label(edit_form.descripcionestadoactdet, 'Descripción', { 'label_attr': {'class': 'col-sm-2 control-label'} }) }}
                     <div class="col-sm-10">
-                        {{ form_widget(edit_form.descripcionestadoactdet, { 'attr': {'class': 'form-control'} }) }}                        
+                        {{ form_widget(edit_form.descripcionestadoactdet, { 'attr': {'class': 'form-control'} }) }}
+                        <span class="text-danger" >{{ form_errors(edit_form.descripcionestadoactdet) }}</span>                        
                     </div>
                 </div>
 
                 <div class="text-right">
-                    <input class="btn btn-success" type="submit" value="Editar">
+                    <input class="btn btn-success" type="submit" value="Guardar">
                 </div>
 
             {{ form_end(edit_form) }}

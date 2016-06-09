@@ -3,9 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * TblPuestos
+ * @UniqueEntity("nombrepuesto")
  */
 class TblPuestos
 {
@@ -16,11 +19,13 @@ class TblPuestos
 
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     private $nombrepuesto;
 
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     private $descripcionpuesto;
 

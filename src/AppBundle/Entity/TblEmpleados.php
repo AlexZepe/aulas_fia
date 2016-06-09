@@ -3,9 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * TblEmpleados
+ * TblEmpleados 
+ * @UniqueEntity("nombreempleado")
  */
 class TblEmpleados
 {
@@ -16,16 +19,19 @@ class TblEmpleados
 
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     private $nombreempleado;
 
     /**
      * @var \DateTime
+     * @Assert\NotBlank()
      */
     private $fechaingreso;
 
     /**
      * @var \AppBundle\Entity\TblPuestos
+     * @Assert\NotBlank()
      */
     private $idpuesto;
 

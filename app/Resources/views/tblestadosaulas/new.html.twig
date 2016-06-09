@@ -8,19 +8,21 @@
         <div class="col-md-8">
             <h1 class="text-center">Nuevo Estado Aula</h1>
             <br/>
-            {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'role':'form'} }) }}
+            {{ form_start(form, { 'attr': {'novalidate':'novalidate','class': 'form-horizontal', 'role':'form'} }) }}
 
                 <div class="form-group">
                     {{ form_label(form.nombreestadoaula, 'Nombre', { 'label_attr': {'class': 'col-sm-2 control-label'} }) }}
                     <div class="col-sm-10">
-                        {{ form_widget(form.nombreestadoaula, { 'attr': {'class': 'form-control'} }) }}                        
+                        {{ form_widget(form.nombreestadoaula, { 'attr': {'class': 'form-control'} }) }} 
+                        <span class="text-danger" >{{ form_errors(form.nombreestadoaula) }}</span>                        
                     </div>
                 </div>
 
                 <div class="form-group">
                     {{ form_label(form.descripcionestadoaula, 'Descripción', { 'label_attr': {'class': 'col-sm-2 control-label'} }) }}
                     <div class="col-sm-10">
-                        {{ form_widget(form.descripcionestadoaula, { 'attr': {'class': 'form-control'} }) }}                        
+                        {{ form_widget(form.descripcionestadoaula, { 'attr': {'class': 'form-control'} }) }}
+                        <span class="text-danger" >{{ form_errors(form.descripcionestadoaula) }}</span>                         
                     </div>
                 </div>
 

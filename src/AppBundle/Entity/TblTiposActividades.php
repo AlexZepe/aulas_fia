@@ -3,9 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * TblTiposActividades
+ * @UniqueEntity("nombretipoactividad")
  */
 class TblTiposActividades
 {
@@ -16,11 +19,13 @@ class TblTiposActividades
 
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     private $nombretipoactividad;
 
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     private $descripciontipoactividad;
 

@@ -7,19 +7,21 @@
         <div class="col-md-8">
             <h1 class="text-center">Editar Estado Aula</h1>
             <br/>
-            {{ form_start(edit_form, { 'attr': {'class': 'form-horizontal', 'role':'form'} }) }}
+            {{ form_start(edit_form, { 'attr': {'novalidate':'novalidate','class': 'form-horizontal', 'role':'form'} }) }}
 
                 <div class="form-group">
                     {{ form_label(edit_form.nombreestadoaula, 'Nombre', { 'label_attr': {'class': 'col-sm-2 control-label'} }) }}
                     <div class="col-sm-10">
-                        {{ form_widget(edit_form.nombreestadoaula, { 'attr': {'class': 'form-control'} }) }}                        
+                        {{ form_widget(edit_form.nombreestadoaula, { 'attr': {'class': 'form-control'} }) }}
+                        <span class="text-danger" >{{ form_errors(edit_form.nombreestadoaula) }}</span>                         
                     </div>
                 </div>
 
                 <div class="form-group">
                     {{ form_label(edit_form.descripcionestadoaula, 'Descripción', { 'label_attr': {'class': 'col-sm-2 control-label'} }) }}
                     <div class="col-sm-10">
-                        {{ form_widget(edit_form.descripcionestadoaula, { 'attr': {'class': 'form-control'} }) }}                        
+                        {{ form_widget(edit_form.descripcionestadoaula, { 'attr': {'class': 'form-control'} }) }}
+                        <span class="text-danger" >{{ form_errors(edit_form.descripcionestadoaula) }}</span>                         
                     </div>
                 </div>
 

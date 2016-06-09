@@ -6,21 +6,23 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <h1 class="text-center">Nueva Estado Actividad</h1>
+            <h1 class="text-center">Nuevo Estado Actividad</h1>
             <br/>
-            {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'role':'form'} }) }}
+            {{ form_start(form, { 'attr': {'novalidate':'novalidate', 'class': 'form-horizontal', 'role':'form'} }) }}
 
                 <div class="form-group">
                     {{ form_label(form.nombreestadoactdet, 'Nombre', { 'label_attr': {'class': 'col-sm-2 control-label'} }) }}
                     <div class="col-sm-10">
-                        {{ form_widget(form.nombreestadoactdet, { 'attr': {'class': 'form-control'} }) }}                        
+                        {{ form_widget(form.nombreestadoactdet, { 'attr': {'class': 'form-control'} }) }}
+                        <span class="text-danger" >{{ form_errors(form.nombreestadoactdet) }}</span>                        
                     </div>
                 </div>
 
                 <div class="form-group">
                     {{ form_label(form.descripcionestadoactdet, 'Descripción', { 'label_attr': {'class': 'col-sm-2 control-label'} }) }}
                     <div class="col-sm-10">
-                        {{ form_widget(form.descripcionestadoactdet, { 'attr': {'class': 'form-control'} }) }}                        
+                        {{ form_widget(form.descripcionestadoactdet, { 'attr': {'class': 'form-control'} }) }}
+                        <span class="text-danger" >{{ form_errors(form.descripcionestadoactdet) }}</span>                        
                     </div>
                 </div>
 

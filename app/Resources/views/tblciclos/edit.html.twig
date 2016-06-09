@@ -6,33 +6,37 @@
         <div class="col-md-8">
             <h1 class="text-center">Editar Ciclo</h1>
             <br/>
-            {{ form_start(edit_form, { 'attr': {'class': 'form-horizontal', 'role':'form'} }) }}
+            {{ form_start(edit_form, { 'attr': {'novalidate':'novalidate', 'class': 'form-horizontal', 'role':'form'} }) }}
 
                 <div class="form-group">
                     {{ form_label(edit_form.aniociclo, 'Año', { 'label_attr': {'class': 'col-sm-3 control-label'} }) }}
                     <div class="col-sm-9">
-                        {{ form_widget(edit_form.aniociclo, { 'attr': {'class': 'form-control'} }) }}                        
+                        {{ form_widget(edit_form.aniociclo, { 'attr': {'class': 'form-control'} }) }}
+                        <span class="text-danger" >{{ form_errors(edit_form.aniociclo) }}</span>                       
                     </div>
                 </div>
 
                 <div class="form-group">
                     {{ form_label(edit_form.numerociclo, 'Número de Ciclo', { 'label_attr': {'class': 'col-sm-3 control-label'} }) }}
                     <div class="col-sm-9">
-                        {{ form_widget(edit_form.numerociclo, { 'attr': {'class': 'form-control'} }) }}                        
+                        {{ form_widget(edit_form.numerociclo, { 'attr': {'class': 'form-control'} }) }}
+                        <span class="text-danger" >{{ form_errors(edit_form.numerociclo) }}</span>                        
                     </div>
                 </div>
 
                 <div class="form-group">
                     {{ form_label(edit_form.fechainicio, 'Fecha Inicio', { 'label_attr': {'class': 'col-sm-3 control-label'} }) }}
                     <div class="col-sm-9">
-                        {{ form_widget(edit_form.fechainicio) }}                        
+                        {{ form_widget(edit_form.fechainicio) }}
+                        <span class="text-danger" >{{ form_errors(edit_form.fechainicio) }}</span>                        
                     </div>
                 </div>
 
                 <div class="form-group">
                     {{ form_label(edit_form.fechafin, 'Fecha Fin', { 'label_attr': {'class': 'col-sm-3 control-label'} }) }}
                     <div class="col-sm-9">
-                        {{ form_widget(edit_form.fechafin) }}                        
+                        {{ form_widget(edit_form.fechafin) }}
+                        <span class="text-danger" >{{ form_errors(edit_form.fechafin) }}</span>                        
                     </div>
                 </div>
                 <div class="text-right">

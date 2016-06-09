@@ -1,39 +1,43 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <h1 class="text-center">Editar Aula</h1>
-            <br/>
-            {{ form_start(edit_form, { 'attr': {'class': 'form-horizontal', 'role':'form'} }) }}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <h1 class="text-center">Editar Aula</h1>
+                <br/>
+                {{ form_start(edit_form, { 'attr': {'novalidate':'novalidate', 'class': 'form-horizontal', 'role':'form'} }) }}
 
                 <div class="form-group">
                     {{ form_label(edit_form.nombreaula, 'Nombre', { 'label_attr': {'class': 'col-sm-2 control-label'} }) }}
                     <div class="col-sm-10">
-                        {{ form_widget(edit_form.nombreaula, { 'attr': {'class': 'form-control'} }) }}                        
+                        {{ form_widget(edit_form.nombreaula, { 'attr': {'class': 'form-control'} }) }}
+                        <span class="text-danger" >{{ form_errors(edit_form.nombreaula) }}</span>                        
                     </div>
                 </div>
 
                 <div class="form-group">
                     {{ form_label(edit_form.capacidadaula, 'Capacidad del Aula', { 'label_attr': {'class': 'col-sm-2 control-label'} }) }}
                     <div class="col-sm-10">
-                        {{ form_widget(edit_form.capacidadaula, { 'attr': {'class': 'form-control'} }) }}                     
+                        {{ form_widget(edit_form.capacidadaula, { 'attr': {'class': 'form-control'} }) }}
+                        <span class="text-danger" >{{ form_errors(edit_form.capacidadaula) }}</span>                     
                     </div>
                 </div>
 
                 <div class="form-group">
                     {{ form_label(edit_form.idestadoaula, 'estado del aula', { 'label_attr': {'class': 'col-sm-2 control-label'} }) }}
                     <div class="col-sm-10">
-                        {{ form_widget(edit_form.idestadoaula, { 'attr': {'class': 'form-control'} }) }}                        
+                        {{ form_widget(edit_form.idestadoaula, { 'attr': {'class': 'form-control'} }) }}
+                        <span class="text-danger" >{{ form_errors(edit_form.idestadoaula) }}</span>                        
                     </div>
                 </div>
 
                 <div class="form-group">
                     {{ form_label(edit_form.idtipoaula, 'Tipo del aula', { 'label_attr': {'class': 'col-sm-2 control-label'} }) }}
                     <div class="col-sm-10">
-                        {{ form_widget(edit_form.idtipoaula, { 'attr': {'class': 'form-control'} }) }}                        
+                        {{ form_widget(edit_form.idtipoaula, { 'attr': {'class': 'form-control'} }) }}
+                        <span class="text-danger" >{{ form_errors(edit_form.idtipoaula) }}</span>                        
                     </div>
                 </div>
 
@@ -41,28 +45,28 @@
                     <input class="btn btn-success" type="submit" value="Guardar">
                 </div>
 
-            {{ form_end(edit_form) }}
-            
+                {{ form_end(edit_form) }}
+                
 
+            </div>
+            <div class="col-md-2"></div>
         </div>
-        <div class="col-md-2"></div>
     </div>
-</div>
-<!--JAVASCRIPT PARA POPUP Y DATATABLES-->
-  {% block javascripts %}
-    {{ parent() }}
-      
-      <script type="text/javascript">
+    <!--JAVASCRIPT PARA POPUP Y DATATABLES-->
+    {% block javascripts %}
+        {{ parent() }}
+        
+        <script type="text/javascript">
             $(document).ready(function () {
                 
                 $('.calendario').datepicker({
                     format: "yyyy-mm-dd"
                 });  
-            
+                
             });
         </script>
-      
-  {% endblock %}
+        
+    {% endblock %}
 
 {% endblock %}
 

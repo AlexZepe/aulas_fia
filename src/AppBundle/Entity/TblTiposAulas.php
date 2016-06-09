@@ -3,9 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * TblTiposAulas
+ * @UniqueEntity("nombretipoaula")
  */
 class TblTiposAulas
 {
@@ -16,11 +19,13 @@ class TblTiposAulas
 
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     private $nombretipoaula;
 
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     private $descripciontipoaula;
 
@@ -80,8 +85,8 @@ class TblTiposAulas
     {
         return $this->descripciontipoaula;
     }
-	
-	public function __toString()
+    
+    public function __toString()
     {
         return strval($this->nombretipoaula);
     }

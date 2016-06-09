@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * TblCiclos
@@ -16,21 +18,25 @@ class TblCiclos
 
     /**
      * @var integer
+     * @Assert\NotBlank()
      */
     private $aniociclo;
 
     /**
      * @var integer
+     * @Assert\NotBlank()
      */
     private $numerociclo;
 
     /**
      * @var \DateTime
+     * @Assert\NotBlank()
      */
     private $fechainicio;
 
     /**
      * @var \DateTime
+     * @Assert\NotBlank()
      */
     private $fechafin;
 

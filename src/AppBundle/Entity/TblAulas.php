@@ -3,9 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * TblAulas
+ * @UniqueEntity("nombreaula")
  */
 class TblAulas
 {
@@ -16,21 +19,25 @@ class TblAulas
 
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     private $nombreaula;
 
     /**
      * @var integer
+     * @Assert\NotBlank()
      */
     private $capacidadaula;
 
     /**
      * @var \AppBundle\Entity\TblEstadosAulas
+     * @Assert\NotBlank()
      */
     private $idestadoaula;
 
     /**
      * @var \AppBundle\Entity\TblTiposAulas
+     * @Assert\NotBlank()
      */
     private $idtipoaula;
 
