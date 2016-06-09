@@ -17,11 +17,11 @@
             <ul class="nav navbar-nav">
                 {% for menuIter in menuList%}	
 					<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> {{menuIter.getNombreMenu}}<span class="caret"></span></a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> {{menuIter.nombremenu}}<span class="caret"></span></a>
 					<ul class="dropdown-menu">	
 						{% for subMenuIter in subMenuList %}
-							{% if subMenuIter.getTblmenu().getIdmenu() == menuIter.getIdmenu() %}
-								<li><a href="{{ path(subMenuIter.getUrl()) }}">{{ subMenuIter.getNombreSubMenu() }}</a></li>	
+							{% if subMenuIter.idmenu == menuIter.idmenu %}
+								<li><a href="{{ path(subMenuIter.url) }}">{{ subMenuIter.nombresubmenu }}</a></li>	
 							{% endif %}
 						{% endfor %}
 					</ul>

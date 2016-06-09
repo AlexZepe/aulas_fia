@@ -2,7 +2,7 @@ AppBundle\Entity\TblMaterias:
     type: entity
     table: tbl_materias
     indexes:
-        reference_22_fk:
+        fk_tbl_mate_reference_tbl_escu_:
             columns:
                 - idescuela
     uniqueConstraints:

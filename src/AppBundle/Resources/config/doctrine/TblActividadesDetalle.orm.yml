@@ -2,20 +2,20 @@ AppBundle\Entity\TblActividadesDetalle:
     type: entity
     table: tbl_actividades_detalle
     indexes:
-        actividades_aulas_fk:
-            columns:
-                - idaula
-        act_det_estado_fk:
+        fk_tbl_acti_act_det_e_tbl_esta_:
             columns:
                 - idestadoactdet
-        detalle_actividades_fk:
+        fk_tbl_acti_actividad_tbl_aula_:
+            columns:
+                - idaula
+        fk_tbl_acti_detalle_a_tbl_acti_:
             columns:
                 - idactividad
     uniqueConstraints:
         tbl_actividades_detalle_pk:
             columns:
-                - idactividad
                 - idestadoactdet
+                - idactividad
                 - idactividadesdetalle
     id:
         idactividadesdetalle:
@@ -24,6 +24,9 @@ AppBundle\Entity\TblActividadesDetalle:
             unsigned: false
             id: true
     fields:
+        dia:
+            type: date
+            nullable: false
         horainicio:
             type: string
             nullable: false
@@ -38,13 +41,16 @@ AppBundle\Entity\TblActividadesDetalle:
             type: integer
             nullable: false
             unsigned: false
-        dia:
-            type: date
-            nullable: false
-        correlativo:
-            type: integer
-            nullable: false
-            unsigned: false
+    manyToOne:
+        idaula:
+            targetEntity: TblAulas
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idaula:
+                    referencedColumnName: idaula
+            orphanRemoval: false
     oneToOne:
         idestadoactdet:
             targetEntity: TblEstadoActDet
@@ -63,15 +69,5 @@ AppBundle\Entity\TblActividadesDetalle:
             joinColumns:
                 idactividad:
                     referencedColumnName: idactividad
-            orphanRemoval: false
-    manyToOne:
-        idaula:
-            targetEntity: TblAulas
-            cascade: {  }
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                idaula:
-                    referencedColumnName: idaula
             orphanRemoval: false
     lifecycleCallbacks: {  }

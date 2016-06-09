@@ -14,40 +14,64 @@ class IndexController extends Controller
     {
     	$session = $request->getSession();
     	if($session->has("id")){
+            $em = $this->getDoctrine()->getManager();            
+            $db = $em->getConnection();
             $menuList = array();
             $subMenuList = array();
-            $menusList = $this->getDoctrine()->getEntityManager()->createQuery("SELECT m  
-                FROM AppBundle:TblMenus m 
-                ,AppBundle:TblPerfildetalle pd 
-                ,AppBundle:TblPerfil p  
-                ,AppBundle:TblUsuariosperfiles up  
-                WHERE up.idusuario = :pIdUsuario
-                AND pd.idmenu IS NOT NULL
-                and pd.idmenu = m.idmenu
-                and p.idperfil = pd.idperfil
-                and up.idperfil = p.idperfil
-                ORDER BY m.nombremenu ASC")->setParameters(array('pIdUsuario'=>$session->get('id')))->getResult();
+            
+            $iduser = $session->get('id');
+            $query = "Select * FROM tbl_menus m,
+                            tbl_perfildetalle pd,
+                            tbl_perfil p,
+                            tbl_usuariosperfiles up 
+                            where up.idusuario=$iduser
+                            and pd.idmenu is not null
+                            and pd.idmenu=m.idmenu
+                            and p.idperfil=pd.idperfil
+                            and up. idperfil = p.idperfil
+                             ORDER BY m.nombremenu ASC";
+            $stmt = $db->prepare($query);
+            $params = array();
+            $stmt->execute($params);
+            $menusList=$stmt->fetchAll();
+
             if($menusList){
                 foreach ($menusList as $menuIter) {
-                    $subMenu = $this->getDoctrine()->getEntityManager()->createQuery("SELECT sm
-                        FROM AppBundle:TblMenus m 
-                        ,AppBundle:TblMenusub sm
-                        ,AppBundle:TblPerfildetalle pd
-                        ,AppBundle:TblPerfil p
-                        ,AppBundle:TblUsuariosperfiles up 
-                        WHERE up.idusuario = :pIdUsuario
-                        AND m.idmenu = :pIdMenu
-                        AND pd.idsubmenu IS NOT NULL
-                        and sm.idmenu = m.idmenu
-                        and pd.idsubmenu = sm.idsubmenu
-                        and p.idperfil = pd.idperfil
-                        and up.idperfil = p.idperfil
-                        ORDER BY sm.nombresubmenu ASC")->setParameters(array('pIdUsuario'=>$session->get('id'),'pIdMenu'=>$menuIter->getIdmenu()))->getResult();
+
+                    
+
+                    $emp = $this->getDoctrine()->getManager();            
+                    $dbp = $emp->getConnection();
+                    
+                    $iduser = $session->get('id');
+                    $imenu = $menuIter["idmenu"];
+
+                    $queryp = "Select * FROM tbl_menus m,
+                                tbl_menusub sm,
+                                tbl_perfildetalle pd,
+                                tbl_perfil p,
+                                tbl_usuariosperfiles up 
+                                where up.idusuario=$iduser
+                                and m.idmenu =$imenu
+                                and pd.idsubmenu is not null
+                                and sm.idmenu = m.idmenu
+                                and p.idperfil=pd.idperfil
+                                and up. idperfil = p.idperfil
+                                 ORDER BY sm.nombresubmenu ASC";
+                    $stmtp = $dbp->prepare($queryp);
+                    $paramsp = array();
+                    $stmtp->execute($paramsp);
+                    $subMenu=$stmtp->fetchAll();
+
                     if($subMenu){
                         foreach ($subMenu as $sm) {
                             array_push($subMenuList,$sm);
                         }
                     }
+
+                    //print_r($menuList);
+                    //print_r($subMenuList);
+
                     array_push($menuList,$menuIter);
                 }
                 return $this->render('AppBundle:Inicio:inicio.html.twig', array('menuList'=>$menuList,'subMenuList'=>$subMenuList));

@@ -2,7 +2,7 @@ AppBundle\Entity\TblCarreras:
     type: entity
     table: tbl_carreras
     indexes:
-        carreras_escuelas_fk:
+        fk_tbl_carr_carreras__tbl_escu_:
             columns:
                 - idescuela
     uniqueConstraints:

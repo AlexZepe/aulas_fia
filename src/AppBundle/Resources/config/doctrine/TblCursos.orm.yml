@@ -2,12 +2,12 @@ AppBundle\Entity\TblCursos:
     type: entity
     table: tbl_cursos
     indexes:
-        cursos_ciclos_fk:
-            columns:
-                - idciclo
-        cursos_materias_fk:
+        fk_tbl_curs_cursos_ma_tbl_mate_:
             columns:
                 - idmateria
+        fk_tbl_curs_cursos_ci_tbl_cicl_:
+            columns:
+                - idciclo
     uniqueConstraints:
         tbl_cursos_pk:
             columns:
@@ -21,6 +21,11 @@ AppBundle\Entity\TblCursos:
             generator:
                 strategy: SEQUENCE
     fields:
+        nombrecurso:
+            type: string
+            nullable: false
+            length: 6
+            fixed: false
     manyToOne:
         idciclo:
             targetEntity: TblCiclos

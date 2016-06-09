@@ -2,7 +2,7 @@ AppBundle\Entity\TblMenusub:
     type: entity
     table: tbl_menusub
     indexes:
-        fk_submenu_menu_fk:
+        fk_tbl_menu_fk_submen_tbl_menu_:
             columns:
                 - idmenu
     uniqueConstraints:
@@ -18,7 +18,6 @@ AppBundle\Entity\TblMenusub:
             generator:
                 strategy: SEQUENCE
     fields:
-    
         nombresubmenu:
             type: string
             nullable: true
@@ -33,13 +32,13 @@ AppBundle\Entity\TblMenusub:
             type: date
             nullable: true
     manyToOne:
-        tblmenu:
+        idmenu:
             targetEntity: TblMenus
             cascade: {  }
             mappedBy: null
             inversedBy: null
             joinColumns:
-                tbl_idmenu:
+                idmenu:
                     referencedColumnName: idmenu
             orphanRemoval: false
     lifecycleCallbacks: {  }

@@ -2,7 +2,7 @@ AppBundle\Entity\TblEmpleados:
     type: entity
     table: tbl_empleados
     indexes:
-        empleados_puestos_fk:
+        fk_tbl_empl_empleados_tbl_pues_:
             columns:
                 - idpuesto
     uniqueConstraints:

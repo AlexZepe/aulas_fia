@@ -2,10 +2,12 @@ AppBundle\Entity\TblActividades:
     type: entity
     table: tbl_actividades
     indexes:
-        tipos_actividades_fk:
+        fk_tbl_acti_relations_tbl_curs_:
+            columns:
+                - idcurso
+        fk_tbl_acti_tipos_act_tbl_tipo_:
             columns:
                 - idtipoactividad
-                - idcurso
     uniqueConstraints:
         tbl_actividades_pk:
             columns:
@@ -36,14 +38,5 @@ AppBundle\Entity\TblActividades:
             joinColumns:
                 idtipoactividad:
                     referencedColumnName: idtipoactividad
-            orphanRemoval: false
-        idcurso:
-            targetEntity: TblCursos
-            cascade: {  }
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                idcurso:
-                    referencedColumnName: idcurso
             orphanRemoval: false
     lifecycleCallbacks: {  }

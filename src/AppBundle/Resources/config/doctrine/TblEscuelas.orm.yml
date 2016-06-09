@@ -2,7 +2,7 @@ AppBundle\Entity\TblEscuelas:
     type: entity
     table: tbl_escuelas
     indexes:
-        escuelas_facultades_fk:
+        fk_tbl_escu_escuelas__tbl_facu_:
             columns:
                 - idfacultad
     uniqueConstraints:

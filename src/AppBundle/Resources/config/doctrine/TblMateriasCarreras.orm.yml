@@ -2,12 +2,12 @@ AppBundle\Entity\TblMateriasCarreras:
     type: entity
     table: tbl_materias_carreras
     indexes:
-        materias_carreras_fk:
-            columns:
-                - idcarrera
-        carreras_materias_fk:
+        fk_tbl_mate_carreras__tbl_mate_:
             columns:
                 - idmateria
+        fk_tbl_mate_materias__tbl_carr_:
+            columns:
+                - idcarrera
     uniqueConstraints:
         tbl_materias_carreras_pk:
             columns:

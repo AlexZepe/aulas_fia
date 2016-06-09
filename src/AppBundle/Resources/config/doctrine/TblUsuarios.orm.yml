@@ -27,7 +27,7 @@ AppBundle\Entity\TblUsuarios:
         password:
             type: string
             nullable: true
-            length: 32
+            length: 25
             fixed: false
         vigencia:
             type: integer
@@ -43,4 +43,12 @@ AppBundle\Entity\TblUsuarios:
         fechaestatus:
             type: date
             nullable: true
+    manyToMany:
+        idperfil:
+            targetEntity: TblPerfil
+            cascade: {  }
+            mappedBy: idusuario
+            inversedBy: null
+            joinTable: null
+            orderBy: null
     lifecycleCallbacks: {  }

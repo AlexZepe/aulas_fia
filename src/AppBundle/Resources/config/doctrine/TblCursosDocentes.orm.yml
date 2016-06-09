@@ -2,10 +2,10 @@ AppBundle\Entity\TblCursosDocentes:
     type: entity
     table: tbl_cursos_docentes
     indexes:
-        docentes_cursos_fk:
+        fk_tbl_curs_docentes__tbl_curs_:
             columns:
                 - idcurso
-        docentes_empleados_fk:
+        fk_tbl_curs_docentes__tbl_empl_:
             columns:
                 - idempleado
     uniqueConstraints:

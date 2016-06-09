@@ -2,12 +2,12 @@ AppBundle\Entity\TblAulas:
     type: entity
     table: tbl_aulas
     indexes:
-        tipos_aulas_fk:
-            columns:
-                - idtipoaula
-        aulas_estados_fk:
+        fk_tbl_aula_aulas_est_tbl_esta_:
             columns:
                 - idestadoaula
+        fk_tbl_aula_tipos_aul_tbl_tipo_:
+            columns:
+                - idtipoaula
     uniqueConstraints:
         tbl_aulas_pk:
             columns:

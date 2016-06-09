@@ -2,25 +2,16 @@ AppBundle\Entity\TblPerfildetalle:
     type: entity
     table: tbl_perfildetalle
     indexes:
-        fk_perfildetalle_menu_fk:
-            columns:
-                - tbl_idmenu
-        fk_perfildetalle_submenu_fk:
-            columns:
-                - tbl_idsubmenu
-        fk_perfildetalle_perfil_fk:
-            columns:
-                - tbl_idperfil
-    uniqueConstraints:
-        ak_fk_perfildetalle_m_tbl_perf:
+        fk_tbl_perf_fk_perfil_tbl_menu_:
             columns:
                 - idmenu
-        ak_fk_perfildetalle_s_tbl_perf:
+        fk_tbl_perf_fk_perfil_tbl_menu2:
             columns:
                 - idsubmenu
-        ak_fk_perfildetalle_p_tbl_perf:
+        fk_tbl_perf_fk_perfil_tbl_perf_:
             columns:
                 - idperfil
+    uniqueConstraints:
         tbl_perfildetalle_pk:
             columns:
                 - idperfildetalle
@@ -33,18 +24,6 @@ AppBundle\Entity\TblPerfildetalle:
             generator:
                 strategy: SEQUENCE
     fields:
-        idperfil:
-            type: integer
-            nullable: false
-            unsigned: false
-        idmenu:
-            type: integer
-            nullable: true
-            unsigned: false
-        idsubmenu:
-            type: integer
-            nullable: true
-            unsigned: false
         comentario:
             type: string
             nullable: true
@@ -53,4 +32,32 @@ AppBundle\Entity\TblPerfildetalle:
         fechaalta:
             type: date
             nullable: true
+    manyToOne:
+        idmenu:
+            targetEntity: TblMenus
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idmenu:
+                    referencedColumnName: idmenu
+            orphanRemoval: false
+        idsubmenu:
+            targetEntity: TblMenusub
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idsubmenu:
+                    referencedColumnName: idsubmenu
+            orphanRemoval: false
+        idperfil:
+            targetEntity: TblPerfil
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idperfil:
+                    referencedColumnName: idperfil
+            orphanRemoval: false
     lifecycleCallbacks: {  }

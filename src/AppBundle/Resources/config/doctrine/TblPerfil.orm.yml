@@ -27,4 +27,21 @@ AppBundle\Entity\TblPerfil:
         fechaalta:
             type: date
             nullable: true
+    manyToMany:
+        idusuario:
+            targetEntity: TblUsuarios
+            cascade: {  }
+            mappedBy: null
+            inversedBy: idperfil
+            joinTable:
+                name: tbl_usuariosperfiles
+                joinColumns:
+                    -
+                        name: idperfil
+                        referencedColumnName: idperfil
+                inverseJoinColumns:
+                    -
+                        name: idusuario
+                        referencedColumnName: idusuario
+            orderBy: null
     lifecycleCallbacks: {  }
