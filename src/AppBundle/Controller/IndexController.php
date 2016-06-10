@@ -72,7 +72,7 @@ class IndexController extends Controller
 
                     array_push($menuList,$menuIter);
                 }
-                return $this->render('AppBundle:Inicio:inicio.html.twig', array('usuariologeado'=>$user,'menuList'=>$menuList,'subMenuList'=>$subMenuList));
+                return $this->render('default/index.html.twig', array('usuariologeado'=>$user,'menuList'=>$menuList,'subMenuList'=>$subMenuList));
             }else{
                 salirAction($request);    
             }
@@ -80,7 +80,6 @@ class IndexController extends Controller
     		$this->get("session")->getFlashBag()->add("mensaje","Debe estar logueado para ver este contenido."); 
                return $this->redirect($this->generateUrl("login"));
     	}
-    	return $this->render('AppBundle:Inicio:inicio.html.twig');
     }
 
     public function salirAction(Request $request)
