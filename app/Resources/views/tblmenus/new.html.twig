@@ -2,32 +2,35 @@
 
 {% block body %}
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <h1 class="text-center">Nuevo Menu</h1>
-            <br/>
-            {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'role':'form'} }) }}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <h1 class="text-center">Nuevo Menu</h1>
+                <br/>
+                {{ form_start(form, { 'attr': {'novalidate':'novalidate', 'class': 'form-horizontal', 'role':'form'} }) }}
 
                 <div class="form-group">
                     {{ form_label(form.nombremenu, 'Nombre', { 'label_attr': {'class': 'col-sm-2 control-label'} }) }}
                     <div class="col-sm-10">
-                        {{ form_widget(form.nombremenu, { 'attr': {'class': 'form-control'} }) }}                        
+                        {{ form_widget(form.nombremenu, { 'attr': {'class': 'form-control'} }) }}
+                        <span class="text-danger" >{{ form_errors(form.nombremenu) }}</span>                        
                     </div>
                 </div>
 
                 <div class="form-group">
                     {{ form_label(form.url, 'Url', { 'label_attr': {'class': 'col-sm-2 control-label'} }) }}
                     <div class="col-sm-10">
-                        {{ form_widget(form.url, { 'attr': {'class': 'form-control'} }) }}                        
+                        {{ form_widget(form.url, { 'attr': {'class': 'form-control'} }) }}
+                        <span class="text-danger" >{{ form_errors(form.url) }}</span>                        
                     </div>
                 </div>
 
                 <div class="form-group">
                     {{ form_label(form.fechaalta, 'Fecha Alta', { 'label_attr': {'class': 'col-sm-2 control-label'} }) }}
                     <div class="col-sm-10">
-                        {{ form_widget(form.fechaalta) }}                        
+                        {{ form_widget(form.fechaalta) }}
+                        <span class="text-danger" >{{ form_errors(form.fechaalta) }}</span>                        
                     </div>
                 </div>
 
@@ -35,28 +38,28 @@
                     <input class="btn btn-success" type="submit" value="Guardar">
                 </div>
 
-            {{ form_end(form) }}
-            
+                {{ form_end(form) }}
 
+
+            </div>
+            <div class="col-md-2"></div>
         </div>
-        <div class="col-md-2"></div>
     </div>
-</div>
 
-<!--JAVASCRIPT PARA POPUP Y DATATABLES-->
-  {% block javascripts %}
-    {{ parent() }}
-      
-      <script type="text/javascript">
+    <!--JAVASCRIPT PARA POPUP Y DATATABLES-->
+    {% block javascripts %}
+        {{ parent() }}
+
+        <script type="text/javascript">
             $(document).ready(function () {
-                
+
                 $('.calendario').datepicker({
                     format: "yyyy-mm-dd"
                 });  
-            
+
             });
         </script>
-      
-  {% endblock %}
+
+    {% endblock %}
 
 {% endblock %}

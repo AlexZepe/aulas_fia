@@ -25,7 +25,6 @@ class TblTiposActividades
 
     /**
      * @var string
-     * @Assert\NotBlank()
      */
     private $descripciontipoactividad;
 

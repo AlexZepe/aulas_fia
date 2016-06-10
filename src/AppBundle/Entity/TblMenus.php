@@ -3,10 +3,13 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * TblMenus
  */
+ 
 class TblMenus
 {
     /**
@@ -16,11 +19,13 @@ class TblMenus
 
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     private $nombremenu;
 
     /**
      * @var string
+     * @Assert\NotBlank()   
      */
     private $url;
 

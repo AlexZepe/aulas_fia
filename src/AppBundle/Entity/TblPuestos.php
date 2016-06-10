@@ -25,7 +25,6 @@ class TblPuestos
 
     /**
      * @var string
-     * @Assert\NotBlank()
      */
     private $descripcionpuesto;
 

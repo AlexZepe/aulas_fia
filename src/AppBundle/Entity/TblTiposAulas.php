@@ -25,7 +25,6 @@ class TblTiposAulas
 
     /**
      * @var string
-     * @Assert\NotBlank()
      */
     private $descripciontipoaula;
 

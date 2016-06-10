@@ -25,7 +25,6 @@ class TblEstadoActDet
 
     /**
      * @var string
-     * @Assert\NotBlank()
      */
     private $descripcionestadoactdet;
 

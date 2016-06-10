@@ -37,6 +37,7 @@ class TblUsuariosController extends Controller
             $subMenuList = array();
             
             $iduser = $session->get('id');
+            $user = $em->getRepository('AppBundle:TblUsuarios')->find($iduser); 
             $query = "Select * FROM tbl_menus m,
             tbl_perfildetalle pd,
             tbl_perfil p,
@@ -87,6 +88,7 @@ class TblUsuariosController extends Controller
                     array_push($menuList,$menuIter);
                 }
                 return $this->render('tblusuarios/index.html.twig', array(
+                    'usuariologeado'=>$user,
                     'tblUsuarios' => $tblUsuarios,
                     'menuList'=>$menuList,
                     'subMenuList'=>$subMenuList
@@ -111,7 +113,7 @@ class TblUsuariosController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $data = $form->getData();
             $password = $data->getPassword();
             $encoder = $this->container->get('security.password_encoder');
@@ -301,9 +303,10 @@ class TblUsuariosController extends Controller
             echo "<script language='Javascript' type='text/javascript'>
             window.opener.location='../../tblusuarios'
             window.close()
-        </script>";
-        
-    }
+            </script>";
+    }  
+
+
 
     return $this->render('tblusuarios/aper.html.twig', array(
         'tblUsuario' => $tblUsuario,

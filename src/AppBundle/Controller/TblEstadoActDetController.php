@@ -36,6 +36,7 @@ class TblEstadoActDetController extends Controller
             $subMenuList = array();
             
             $iduser = $session->get('id');
+            $user = $em->getRepository('AppBundle:TblUsuarios')->find($iduser);
             $query = "Select * FROM tbl_menus m,
             tbl_perfildetalle pd,
             tbl_perfil p,
@@ -86,6 +87,7 @@ class TblEstadoActDetController extends Controller
                     array_push($menuList,$menuIter);
                 }
                 return $this->render('tblestadoactdet/index.html.twig', array(
+                    'usuariologeado'=>$user,
                     'tblEstadoActDets' => $tblEstadoActDets,
                     'menuList'=>$menuList,
                     'subMenuList'=>$subMenuList

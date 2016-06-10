@@ -35,6 +35,7 @@ class TblPerfilController extends Controller
             $subMenuList = array();
             
             $iduser = $session->get('id');
+            $user = $em->getRepository('AppBundle:TblUsuarios')->find($iduser);
             $query = "Select * FROM tbl_menus m,
             tbl_perfildetalle pd,
             tbl_perfil p,
@@ -85,6 +86,7 @@ class TblPerfilController extends Controller
                     array_push($menuList,$menuIter);
                 }
                 return $this->render('tblperfil/index.html.twig', array(
+                    'usuariologeado'=>$user,
                     'tblPerfils' => $tblPerfils,
                     'menuList'=>$menuList,
                     'subMenuList'=>$subMenuList

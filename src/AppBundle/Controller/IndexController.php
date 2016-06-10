@@ -44,6 +44,7 @@ class IndexController extends Controller
                     $dbp = $emp->getConnection();
                     
                     $iduser = $session->get('id');
+                    $user = $em->getRepository('AppBundle:TblUsuarios')->find($iduser); 
                     $imenu = $menuIter["idmenu"];
 
                     $queryp = "Select * FROM tbl_menus m,
@@ -71,7 +72,7 @@ class IndexController extends Controller
 
                     array_push($menuList,$menuIter);
                 }
-                return $this->render('AppBundle:Inicio:inicio.html.twig', array('menuList'=>$menuList,'subMenuList'=>$subMenuList));
+                return $this->render('AppBundle:Inicio:inicio.html.twig', array('usuariologeado'=>$user,'menuList'=>$menuList,'subMenuList'=>$subMenuList));
             }else{
                 salirAction($request);    
             }

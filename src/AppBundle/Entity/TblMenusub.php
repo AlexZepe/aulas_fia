@@ -3,24 +3,29 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * TblMenusub
  */
 class TblMenusub
 {
+    
     /**
      * @var integer
      */
-    private $idmenu;
+    private $idsubmenu;
 
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     private $nombresubmenu;
 
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     private $url;
 
@@ -31,37 +36,11 @@ class TblMenusub
 
     /**
      * @var integer
-     */
-    private $idsubmenu;
-
-    /**
      * @var \AppBundle\Entity\TblMenus
+     * @Assert\NotBlank()
      */
-    private $tblmenu;
+    private $idmenu;
 
-
-    /**
-     * Set idmenu
-     *
-     * @param integer $idmenu
-     * @return TblMenusub
-     */
-    public function setIdmenu($idmenu)
-    {
-        $this->idmenu = $idmenu;
-
-        return $this;
-    }
-
-    /**
-     * Get idmenu
-     *
-     * @return integer 
-     */
-    public function getIdmenu()
-    {
-        return $this->idmenu;
-    }
 
     /**
      * Set nombresubmenu
@@ -143,26 +122,26 @@ class TblMenusub
     }
 
     /**
-     * Set tblmenu
+     * Set idmenu
      *
-     * @param \AppBundle\Entity\TblMenus $tblmenu
+     * @param \AppBundle\Entity\TblMenus $idmenu
      * @return TblMenusub
      */
-    public function setTblmenu(\AppBundle\Entity\TblMenus $tblmenu = null)
+    public function setIdmenu(\AppBundle\Entity\TblMenus $idmenu = null)
     {
-        $this->tblmenu = $tblmenu;
+        $this->idmenu = $idmenu;
 
         return $this;
     }
 
     /**
-     * Get tblmenu
+     * Get idmenu
      *
      * @return \AppBundle\Entity\TblMenus 
      */
-    public function getTblmenu()
+    public function getIdmenu()
     {
-        return $this->tblmenu;
+        return $this->idmenu;
     }
 
     public function __toString()

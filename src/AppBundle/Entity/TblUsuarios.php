@@ -4,9 +4,12 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * TblUsuarios
+ * @UniqueEntity("usuario")
  */
 class TblUsuarios  implements UserInterface
 {
@@ -17,16 +20,19 @@ class TblUsuarios  implements UserInterface
 
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     private $usuario;
 
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     private $nombreusuario;
 
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     private $password;
 
@@ -42,6 +48,7 @@ class TblUsuarios  implements UserInterface
 
     /**
      * @var \DateTime
+     * @Assert\NotBlank()
      */
     private $fechaalta;
 

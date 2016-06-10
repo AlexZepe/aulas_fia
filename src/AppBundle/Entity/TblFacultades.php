@@ -31,7 +31,6 @@ class TblFacultades
 
     /**
      * @var string
-     * @Assert\NotBlank()
      */
     private $descripcionfacultad;
 

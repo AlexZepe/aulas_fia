@@ -3,9 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * TblCarreras
+ * @UniqueEntity("nombrecarrera")
  */
 class TblCarreras
 {
@@ -16,11 +19,13 @@ class TblCarreras
 
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     private $nombrecarrera;
 
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     private $codigocarrera;
 
@@ -31,6 +36,7 @@ class TblCarreras
 
     /**
      * @var \AppBundle\Entity\TblEscuelas
+     * @Assert\NotBlank()
      */
     private $idescuela;
 

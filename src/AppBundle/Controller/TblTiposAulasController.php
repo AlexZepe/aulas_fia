@@ -35,6 +35,7 @@ class TblTiposAulasController extends Controller
             $subMenuList = array();
             
             $iduser = $session->get('id');
+            $user = $em->getRepository('AppBundle:TblUsuarios')->find($iduser);
             $query = "Select * FROM tbl_menus m,
             tbl_perfildetalle pd,
             tbl_perfil p,
@@ -85,6 +86,7 @@ class TblTiposAulasController extends Controller
                     array_push($menuList,$menuIter);
                 }
                 return $this->render('tbltiposaulas/index.html.twig', array(
+                    'usuariologeado'=>$user,
                     'tblTiposAulas' => $tblTiposAulas,
                     'menuList'=>$menuList,
                     'subMenuList'=>$subMenuList
