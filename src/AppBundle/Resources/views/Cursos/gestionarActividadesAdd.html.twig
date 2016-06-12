@@ -10,10 +10,12 @@
         </h3>
         <h3>Nueva Actividad</h3>
 
-        <form class="form-horizontal" role="form" id="formAddCursoDocente" method="POST" action="{{path('cursos_add_actividad', { idCurso: idCur })}}">
+        <form class="form-horizontal" role="form" method="POST" action="{{path('cursos_add_actividad', { idCurso: idCur })}}" id="addActForm">
             <div class="form-group">
-                <label class="col-lg-2 control-label">Tipo Actividad</label>
-                <div class="col-lg-10">
+                <div class="col-sm-2">
+                    <label>Tipo Actividad</label>
+                </div>
+                <div class="col-lg-4">
                     <select class="form-control" required id="tiposActividadSelect" name="tiposActividadSelect">
                         {% for tipoActividadIter in tiposActividadesList %}
                             <option value="{{tipoActividadIter.idtipoactividad}}">{{tipoActividadIter.nombretipoactividad}}</option>
@@ -23,22 +25,46 @@
             </div>
 
             <div class="form-group">
-                <label class="col-lg-2 control-label">Número Actividad</label>
+                <div class="col-sm-2">
+                    <label>Número Actividad</label>
+                </div>
                 <div class="col-lg-10">
                     <input type="number" id="numActividadInput" name="numActividadInput" required>
                 </div>
+            </div> 
+            <div class="form-group" id="fechaActDiv">
+                <div class="col-sm-2">
+                    <label>Fecha Actividad</label>
+                </div>
+                <div class="col-sm-4">
+                    {{ form_widget(form.dia) }}
+                    <span class="text-danger" >{{ form_errors(form.dia) }}</span>                        
+                </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-lg-2 control-label">Fecha Actividad</label>
-                <div class="col-lg-10">
-                    <input type="date" id="fechaActividadInput" name="fechaActividadInput" required>
+            <div class="form-group" id="fechaIniDiv">
+                <div class="col-sm-2">
+                    <label>Fecha Inicio</label>
+                </div>
+                <div class="col-sm-4">
+                    {{ form_widget(form.fechainicio) }}
+                    <span class="text-danger" >{{ form_errors(form.fechainicio) }}</span>                        
+                </div>
+            </div>
+
+            <div class="form-group" id="fechaFinDiv">
+                <div class="col-sm-2">
+                    <label>Fecha Inicio</label>
+                </div>
+                <div class="col-sm-4">
+                    {{ form_widget(form.fechafin) }}
+                    <span class="text-danger" >{{ form_errors(form.fechafin) }}</span>                        
                 </div>
             </div>
 
             <!--div class="form-group">
                 <label class="col-lg-2 control-label">Día Actividad</label>
-                <div class="col-lg-10">
+                <div class="col-lg-4">
                     <select class="form-control" required id="diaActividadSelect" name="diaActividadSelect">
                         <option value="LUNES">LUNES</option>
                         <option value="MARTES">MARTES</option>
@@ -52,8 +78,10 @@
             </div-->
 
             <div class="form-group">
-                <label class="col-lg-2 control-label">Hora Inicio</label>
-                <div class="col-lg-10">
+                <div class="col-sm-2">
+                    <label>Hora Inicio</label>
+                </div>
+                <div class="col-lg-4">
                     <select class="form-control" required id="horaInicioActSelect" name="horaInicioActSelect">
                         <option value="06:20">06:20</option>
                         <option value="08:05">08:05</option>
@@ -68,8 +96,10 @@
             </div>
 
             <div class="form-group">
-                <label class="col-lg-2 control-label">Hora Fin</label>
-                <div class="col-lg-10">
+                <div class="col-sm-2">
+                    <label>Hora Fin</label>
+                </div>
+                <div class="col-lg-4">
                     <select class="form-control" required id="horaFinActSelect" name="horaFinActSelect">
                         <option value="08:00">08:00</option>
                         <option value="09:45">09:45</option>
@@ -84,8 +114,10 @@
             </div>
 
             <div class="form-group">
-                <label class="col-lg-2 control-label">Aula</label>
-                <div class="col-lg-10">
+                <div class="col-sm-2">
+                    <label>Aula</label>
+                </div>
+                <div class="col-lg-4">
                     <select class="form-control" required id="aulaSelect" name="aulaSelect">
                         {% for aulaIter in aulasList %}
                             <option value="{{aulaIter.idaula}}">{{aulaIter.nombreaula}}</option>
@@ -94,8 +126,14 @@
                 </div>
             </div>
 
+            <div class="form-group" style="visibility:hidden;">
+               <input type="date" id="fechaActividadInput" name="fechaActividadInput">
+               <input type="date" id="fechaInicioInput" name="fechaInicioInput">
+                <input type="date" id="fechaFinInput" name="fechaFinInput" >
+            </div>
+            
             <div class="form-group">
-                <div class="col-lg-offset-2 col-lg-10">
+                <div class="col-lg-offset-2 col-lg-4">
                     <button type="submit" class="btn btn-info">Guardar</button>
                     
                     <a class="btn btn-info" href="{{ path('cursos_gest_actividades', { idCurso: idCur}) }}">Volver</a>
@@ -105,5 +143,47 @@
         </div>
     </div>
 </div>
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.calendario').datepicker({
+                format: "yyyy-mm-dd"
+            }); 
+            
+            $('#addActForm').mouseenter(function(){
+                $('#fechaActividadInput').val($('#tbl_actividades_detalle_dia').val());
+
+                $('#fechaInicioInput').val($('#tbl_actividades_detalle_fechainicio').val());
+
+                $('#fechaFinInput').val($('#tbl_actividades_detalle_fechafin').val());
+            });
+
+            $('#tiposActividadSelect').change(function(){
+               if($('#tiposActividadSelect option:selected').text() == 'Parcial' || $('#tiposActividadSelect option:selected').text() == 'Laboratorio Evaluado'){
+                    $('#fechaActDiv').show();
+                    $('#fechaIniDiv').hide();
+                    $('#fechaFinDiv').hide();                
+               }else{
+                    $('#fechaActDiv').hide();
+                    $('#fechaIniDiv').show();
+                    $('#fechaFinDiv').show(); 
+               } 
+            });
+
+            $('#fechaActDiv').hide(); 
+
+            $("#tbl_actividades_detalle_dia").prop("required", false);
+
+            $("#tbl_actividades_detalle_fechainicio").prop("required", false);
+
+            $("#tbl_actividades_detalle_fechafin").prop("required", false);
+
+        });
+    </script>
+
+{% endblock %}
 
 {% endblock %}

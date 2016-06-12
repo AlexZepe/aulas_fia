@@ -4,15 +4,27 @@ cursos_index:
 
 cursos_new:
     path:     /new
-    defaults: { _controller: AppBundle:Cursos:new }
+    defaults: { _controller: AppBundle:Cursos:newCurso }
+
+cursos_new_save:
+    path:     /newSave
+    defaults: { _controller: AppBundle:Cursos:newCursoSave }
 
 cursos_find:
-    path:     /find/{idfac, idEsc, anioCic, numCic}
+    path:     /find
     defaults: { _controller: AppBundle:Cursos:findCursos }
 
 cursos_add_curso_docente:
     path:     /save/{idCurso}
     defaults: { _controller: AppBundle:Cursos:saveCursoDocente }
+
+cursos_edit_curso_docente:
+    path:     /edit/{idCursoDocente,idCurso}
+    defaults: { _controller: AppBundle:Cursos:editCursoDocente }
+
+cursos_delete_curso_docente:
+    path:     /delete/{idCursoDocente,idCurso}
+    defaults: { _controller: AppBundle:Cursos:deleteCursoDocente }
 
 cursos_add_actividad:
     path:     /saveActividad/{idCurso}
@@ -26,6 +38,14 @@ cursos_gest_docentes_add:
     path:     /gestionarDocentesAdd/{idCurso}
     defaults: { _controller: AppBundle:Cursos:gestionarDocentesAdd }
 
+cursos_gest_docentes_edit:
+    path:     /gestionarDocentesEdit/{idCursoDocente}
+    defaults: { _controller: AppBundle:Cursos:gestionarDocentesEdit }
+
+cursos_gest_docentes_delete:
+    path:     /gestionarDocentesDelete/{idCursoDocente}
+    defaults: { _controller: AppBundle:Cursos:gestionarDocentesDelete }
+
 cursos_gest_actividades:
     path:     /gestionarActividades/{idCurso}
     defaults: { _controller: AppBundle:Cursos:gestionarActividades }
@@ -33,3 +53,7 @@ cursos_gest_actividades:
 cursos_gest_actividades_add:
     path:     /gestionarActividadesAdd/{idCurso}
     defaults: { _controller: AppBundle:Cursos:gestionarActividadesAdd }  
+
+find_escuelas:
+    path:     /findEscuelas
+    defaults: { _controller: AppBundle:Cursos:findEscuelas } 

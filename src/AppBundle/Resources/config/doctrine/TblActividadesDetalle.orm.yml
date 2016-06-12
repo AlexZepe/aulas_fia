@@ -41,6 +41,12 @@ AppBundle\Entity\TblActividadesDetalle:
             type: integer
             nullable: false
             unsigned: false
+        correlativo:
+            type: integer
+        fechainicio:
+            type: date
+        fechafin:
+            type: date
     manyToOne:
         idaula:
             targetEntity: TblAulas

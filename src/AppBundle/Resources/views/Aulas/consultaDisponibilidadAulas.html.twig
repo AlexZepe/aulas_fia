@@ -1,0 +1,87 @@
+{% extends 'AppBundle:Inicio:inicio.html.twig' %}
+{% block body %}
+    {{ parent() }}
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <h2>Consulta Disponibilidad Aulas</h2>
+            <br/>
+            <form class="form-horizontal" role="form" method="POST" action="{{path('consulta_disponibilidad_load')}}">
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <label>Ciclo</label>
+                    </div>
+                    <div class="col-lg-10">
+                        <select class="form-control" name="cicloSelect" required>
+                            {% for cicloIter in ciclosList %}
+                                <option value="{{cicloIter.idciclo}}">{{cicloIter.numerociclo}} {{cicloIter.aniociclo}}</option>
+                            {% endfor%}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                <div class="col-sm-2">
+                    <label>Aula</label>
+                </div>
+                <div class="col-lg-4">
+                    <select class="form-control" required id="aulaSelect" name="aulaSelect">
+                        {% for aulaIter in aulasList %}
+                            <option value="{{aulaIter.idaula}}">{{aulaIter.nombreaula}}</option>
+                        {% endfor%}
+                    </select>
+                </div>
+                </div>
+
+                <div class="form-group">
+                <div class="col-sm-2">
+                    <label>Estado Actividad</label>
+                </div>
+                <div class="col-lg-4">
+                    <select class="form-control" required id="estadoActDetSelect" name="estadoActDetSelect">
+                        {% for estActDetIter in estadosActDetList %}
+                            <option value="{{estActDetIter.getIdestadoactdet()}}">{{estActDetIter.getNombreestadoactdet()}}</option>
+                        {% endfor%}
+                    </select>
+                </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="submit" class="btn btn-info">Consultar Disponibilidad</button>
+                    </div>
+                </div>
+            </form>
+
+            <br/>
+            <table class="table table-striped table-hover">
+                <tr>
+                    <td>Hora Inicio</td>
+                    <td>Hora Fin</td>
+                    <td>Lunes</td>
+                    <td>Martes</td>
+                    <td>Miercoles</td>
+                    <td>Jueves</td>
+                    <td>Viernes</td>
+                    <td>Sabado</td>
+                    <td>Domingo</td>
+                </tr>
+                {% for solicitudIter in solicitudesList %}
+                    <tr>
+                        <td>{{ solicitudIter.hora_inicio }}</td>
+                        <td>{{ solicitudIter.hora_fin }}</td>
+                        <td>{{ solicitudIter.lunes }}</td>
+                        <td>{{ solicitudIter.martes }}</td>
+                        <td>{{ solicitudIter.miercoles }}</td>
+                        <td>{{ solicitudIter.jueves }}</td>
+                        <td>{{ solicitudIter.viernes }}</td>
+                        <td>{{ solicitudIter.sabado }}</td>
+                        <td>{{ solicitudIter.domingo }}</td>
+                    </tr>
+                {% endfor%}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

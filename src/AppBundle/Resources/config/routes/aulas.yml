@@ -1,0 +1,7 @@
+consulta_disponibilidad:
+    path:     /consultaDisponibilidadInit
+    defaults: { _controller: AppBundle:TblAulas:consultaDisponibilidadInit }
+
+consulta_disponibilidad_load:
+    path:     /consultaDisponibilidad
+    defaults: { _controller: AppBundle:TblAulas:consultaDisponibilidad }

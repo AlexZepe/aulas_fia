@@ -54,6 +54,16 @@ class TblActividadesDetalle
      */
     private $idaula;
 
+    /**
+     * @var \DateTime
+     */
+    private $fechainicio;
+
+    /**
+     * @var \DateTime
+     */
+    private $fechafin;
+
 
     /**
      * Set idactividadesdetalle
@@ -99,6 +109,52 @@ class TblActividadesDetalle
     public function getDia()
     {
         return $this->dia;
+    }
+
+    /**
+     * Set fechainicio
+     *
+     * @param \DateTime $fechainicio
+     * @return TblActividadesDetalle
+     */
+    public function setFechainicio($fechainicio)
+    {
+        $this->fechainicio = $fechainicio;
+
+        return $this;
+    }
+
+    /**
+     * Get fechainicio
+     *
+     * @return \DateTime 
+     */
+    public function getFechainicio()
+    {
+        return $this->fechainicio;
+    }
+
+    /**
+     * Set fechafin
+     *
+     * @param \DateTime $fechafin
+     * @return TblActividadesDetalle
+     */
+    public function setFechafin($fechafin)
+    {
+        $this->fechafin = $fechafin;
+
+        return $this;
+    }
+
+    /**
+     * Get fechafin
+     *
+     * @return \DateTime 
+     */
+    public function getFechafin()
+    {
+        return $this->fechafin;
     }
 
     /**

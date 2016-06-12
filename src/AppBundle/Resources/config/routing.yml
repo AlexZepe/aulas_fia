@@ -5,3 +5,7 @@ aulas_index:
 aulas_cursos:
     resource: "@AppBundle/Resources/config/routes/cursos.yml"
     prefix:   /cursos
+
+aulas_aulas:
+    resource: "@AppBundle/Resources/config/routes/aulas.yml"
+    prefix:   /aulas

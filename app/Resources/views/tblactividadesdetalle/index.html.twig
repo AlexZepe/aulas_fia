@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>TblActividadesDetalle list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Idactividadesdetalle</th>
+                <th>Dia</th>
+                <th>Horainicio</th>
+                <th>Horafin</th>
+                <th>Estado</th>
+                <th>Correlativo</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tblActividadesDetalle in tblActividadesDetalles %}
+            <tr>
+                <td><a href="{{ path('tblactividadesdetalle_show', { 'id': tblActividadesDetalle.idactividadesdetalle }) }}">{{ tblActividadesDetalle.idactividadesdetalle }}</a></td>
+                <td>{% if tblActividadesDetalle.dia %}{{ tblActividadesDetalle.dia|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ tblActividadesDetalle.horainicio }}</td>
+                <td>{{ tblActividadesDetalle.horafin }}</td>
+                <td>{{ tblActividadesDetalle.estado }}</td>
+                <td>{{ tblActividadesDetalle.correlativo }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('tblactividadesdetalle_show', { 'id': tblActividadesDetalle.idactividadesdetalle }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

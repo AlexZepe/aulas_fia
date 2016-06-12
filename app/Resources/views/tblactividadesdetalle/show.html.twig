@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>TblActividadesDetalle</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Idactividadesdetalle</th>
+                <td>{{ tblActividadesDetalle.idactividadesdetalle }}</td>
+            </tr>
+            <tr>
+                <th>Dia</th>
+                <td>{% if tblActividadesDetalle.dia %}{{ tblActividadesDetalle.dia|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Horainicio</th>
+                <td>{{ tblActividadesDetalle.horainicio }}</td>
+            </tr>
+            <tr>
+                <th>Horafin</th>
+                <td>{{ tblActividadesDetalle.horafin }}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{{ tblActividadesDetalle.estado }}</td>
+            </tr>
+            <tr>
+                <th>Correlativo</th>
+                <td>{{ tblActividadesDetalle.correlativo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('tblactividadesdetalle_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

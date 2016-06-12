@@ -1,3 +1,7 @@
+app_tbl_actividades_detalle:
+    resource: "@AppBundle/Controller/TblActividadesDetalleController.php"
+    type:     annotation
+
 aulas:
     resource: "@AppBundle/Resources/config/routing.yml"
     prefix:   /
