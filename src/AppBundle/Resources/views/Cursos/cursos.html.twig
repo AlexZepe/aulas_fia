@@ -43,8 +43,8 @@
 
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button type="submit" class="btn btn-info">Buscar Cursos</button>
-                        <a class="btn btn-info" href="{{path('cursos_new')}}">Nuevo Curso</a>
+                        <button type="submit" class="btn btn-primary">Buscar Cursos</button>
+                        <a class="btn btn-success" href="{{path('cursos_new')}}">Nuevo Curso</a>
                     </div>
                 </div>
             </form>
@@ -66,12 +66,12 @@
                         <td>{{ cursoIter.numerociclo }} {{ cursoIter.aniociclo }}</td>
                         <td>{{ cursoIter.nombremateria }}</td>
                         <td>
-                            <a href="{{ path('cursos_gest_docentes', { idCurso: cursoIter.idcurso }) }}" class="btn btn-sm btn-info">
+                            <a href="{{ path('cursos_gest_docentes', { idCurso: cursoIter.idcurso }) }}" class="btn btn-sm btn-primary">
                                 {{ 'Gestionar Docentes'|trans }}
                             </a>
                         </td>
                         <td>
-                            <a href="{{ path('cursos_gest_actividades', { idCurso: cursoIter.idcurso }) }}" class="btn btn-sm btn-info">
+                            <a href="{{ path('cursos_gest_actividades', { idCurso: cursoIter.idcurso }) }}" class="btn btn-sm btn-primary">
                                 {{ 'Gestionar Actividades'|trans }}
                             </a>
                         </td>

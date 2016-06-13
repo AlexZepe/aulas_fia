@@ -24,9 +24,6 @@ class TblCiclosController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $tblCiclos = $em->getRepository('AppBundle:TblCiclos')->findAll();
-
         $session = $request->getSession();
         if($session->has("id")){
             $em = $this->getDoctrine()->getManager();            
@@ -36,62 +33,18 @@ class TblCiclosController extends Controller
             
             $iduser = $session->get('id');
             $user = $em->getRepository('AppBundle:TblUsuarios')->find($iduser);
-            $query = "Select * FROM tbl_menus m,
-            tbl_perfildetalle pd,
-            tbl_perfil p,
-            tbl_usuariosperfiles up 
-            where up.idusuario=$iduser
-            and pd.idmenu is not null
-            and pd.idmenu=m.idmenu
-            and p.idperfil=pd.idperfil
-            and up. idperfil = p.idperfil
-            ORDER BY m.nombremenu ASC";
-            $stmt = $db->prepare($query);
-            $params = array();
-            $stmt->execute($params);
-            $menusList=$stmt->fetchAll();
+            $array = $this->obtenerMenus($iduser);
+            $menuList = $array[0];
+            $subMenuList = $array[1];
 
-            if($menusList){
-                foreach ($menusList as $menuIter) {         
+            $tblCiclos = $em->getRepository('AppBundle:TblCiclos')->findAll();
 
-                    $emp = $this->getDoctrine()->getManager();            
-                    $dbp = $emp->getConnection();
-                    
-                    $iduser = $session->get('id');
-                    $imenu = $menuIter["idmenu"];
-
-                    $queryp = "Select * FROM tbl_menus m,
-                    tbl_menusub sm,
-                    tbl_perfildetalle pd,
-                    tbl_perfil p,
-                    tbl_usuariosperfiles up 
-                    where up.idusuario=$iduser
-                    and m.idmenu =$imenu
-                    and pd.idsubmenu is not null
-                    and sm.idmenu = m.idmenu
-                    and p.idperfil=pd.idperfil
-                    and up. idperfil = p.idperfil
-                    ORDER BY sm.nombresubmenu ASC";
-                    $stmtp = $dbp->prepare($queryp);
-                    $paramsp = array();
-                    $stmtp->execute($paramsp);
-                    $subMenu=$stmtp->fetchAll();
-
-                    if($subMenu){
-                        foreach ($subMenu as $sm) {
-                            array_push($subMenuList,$sm);
-                        }
-                    }
-
-                    array_push($menuList,$menuIter);
-                }
-                return $this->render('tblciclos/index.html.twig', array(
+            return $this->render('tblciclos/index.html.twig', array(
                     'usuariologeado'=>$user,
                     'tblCiclos' => $tblCiclos,
                     'menuList'=>$menuList,
                     'subMenuList'=>$subMenuList
                     ));
-            }
         }else{
             $this->get("session")->getFlashBag()->add("mensaje","Debe estar logueado para ver este contenido."); 
             return $this->redirect($this->generateUrl("login"));
@@ -226,5 +179,65 @@ class TblCiclosController extends Controller
             'tblCiclo' => $tblCiclo,
             'delete_form' => $deleteForm->createView(),
             ));
+    }
+
+    public function obtenerMenus($iduser){
+        $em = $this->getDoctrine()->getManager();            
+        $db = $em->getConnection();
+        $array = array();
+        $menuList = array();
+        $subMenuList = array();
+        $query = "Select * FROM tbl_menus m,
+            tbl_perfildetalle pd,
+            tbl_perfil p,
+            tbl_usuariosperfiles up 
+            where up.idusuario = :pIduser
+            and pd.idmenu is not null
+            and pd.idmenu=m.idmenu
+            and p.idperfil=pd.idperfil
+            and up. idperfil = p.idperfil
+            ORDER BY m.nombremenu ASC";
+            $stmt = $db->prepare($query);
+            $params = array('pIduser'=>$iduser);
+            $stmt->execute($params);
+            $menusList=$stmt->fetchAll();
+
+            if($menusList){
+                foreach ($menusList as $menuIter) {         
+
+                $emp = $this->getDoctrine()->getManager();
+                $dbp = $emp->getConnection();
+                $imenu = $menuIter["idmenu"];
+
+                $queryp = "Select * FROM tbl_menus m,
+                    tbl_menusub sm,
+                    tbl_perfildetalle pd,
+                    tbl_perfil p,
+                    tbl_usuariosperfiles up 
+                    where up.idusuario= :pIduser
+                    and m.idmenu = :pImenu
+                    and pd.idsubmenu is not null
+                    and sm.idmenu = m.idmenu
+                    and pd.idmenu=m.idmenu
+                    and pd.idsubmenu = sm.idsubmenu
+                    and p.idperfil=pd.idperfil
+                    and up. idperfil = p.idperfil
+                    ORDER BY sm.nombresubmenu ASC";
+                    $stmtp = $dbp->prepare($queryp);
+                    $paramsp = array('pIduser'=>$iduser,'pImenu'=>$imenu);
+                    $stmtp->execute($paramsp);
+                    $subMenu=$stmtp->fetchAll();
+
+                if($subMenu){
+                    foreach ($subMenu as $sm) {
+                        array_push($subMenuList,$sm);
+                    }
+                }
+                array_push($menuList,$menuIter);
+            } 
+        }
+        array_push($array,$menuList);
+        array_push($array,$subMenuList);
+        return $array;
     }
 }

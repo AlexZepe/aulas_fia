@@ -654,14 +654,14 @@ class CursosController extends Controller
             tbl_perfildetalle pd,
             tbl_perfil p,
             tbl_usuariosperfiles up 
-            where up.idusuario=$iduser
+            where up.idusuario = :pIduser
             and pd.idmenu is not null
             and pd.idmenu=m.idmenu
             and p.idperfil=pd.idperfil
             and up. idperfil = p.idperfil
             ORDER BY m.nombremenu ASC";
             $stmt = $db->prepare($query);
-            $params = array();
+            $params = array('pIduser'=>$iduser);
             $stmt->execute($params);
             $menusList=$stmt->fetchAll();
 
@@ -677,16 +677,17 @@ class CursosController extends Controller
                     tbl_perfildetalle pd,
                     tbl_perfil p,
                     tbl_usuariosperfiles up 
-                    where up.idusuario=$iduser
-                    and m.idmenu =$imenu
+                    where up.idusuario= :pIduser
+                    and m.idmenu = :pImenu
                     and pd.idsubmenu is not null
                     and sm.idmenu = m.idmenu
                     and pd.idmenu=m.idmenu
+                    and pd.idsubmenu = sm.idsubmenu
                     and p.idperfil=pd.idperfil
                     and up. idperfil = p.idperfil
                     ORDER BY sm.nombresubmenu ASC";
                     $stmtp = $dbp->prepare($queryp);
-                    $paramsp = array();
+                    $paramsp = array('pIduser'=>$iduser,'pImenu'=>$imenu);
                     $stmtp->execute($paramsp);
                     $subMenu=$stmtp->fetchAll();
 
