@@ -188,7 +188,7 @@ class TblEmpleadosController extends Controller
         $array = array();
         $menuList = array();
         $subMenuList = array();
-        $query = "Select * FROM tbl_menus m,
+        $query = "Select distinct m.* FROM tbl_menus m,
             tbl_perfildetalle pd,
             tbl_perfil p,
             tbl_usuariosperfiles up 

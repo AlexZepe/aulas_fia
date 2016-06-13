@@ -15,27 +15,27 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        {% for menuIter in menuList%}	
-                        <li class="dropdown">
-                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> {{menuIter.nombremenu}}<span class="caret"></span></a>
-                         <ul class="dropdown-menu">	
-                          {% for subMenuIter in subMenuList %}
-                           {% if subMenuIter.idmenu == menuIter.idmenu %}
-                            <li><a href="{{ path(subMenuIter.url) }}">{{ subMenuIter.nombresubmenu }}</a></li>	
-                        {% endif %}
-                    {% endfor %}
+                        {% for menuIter in menuList %}	
+                            <li class="dropdown">
+                               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> {{menuIter.nombremenu}}<span class="caret"></span></a>
+                               <ul class="dropdown-menu">	
+                                  {% for subMenuIter in subMenuList %}
+                                     {% if subMenuIter.idmenu == menuIter.idmenu %}
+                                        <li><a href="{{ path(subMenuIter.url) }}">{{ subMenuIter.nombresubmenu }}</a></li>	
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </li>	
+                    {% endfor %}    
                 </ul>
-            </li>	
-        {% endfor %}    
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">{{  usuariologeado.nombreusuario }} </a></li>
-            <li class="dropdown">
-            <a href="{{ path('salir') }}" role="button" aria-haspopup="true" aria-expanded="false"> {% trans %} Salir {% endtrans %} </a>
-            <li/>
-        </ul>
-</div><!-- /.navbar-collapse -->
-</div><!-- /.container-fluid -->
-</nav>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">{{  usuariologeado.nombreusuario }} </a></li>
+                    <li class="dropdown">
+                        <a href="{{ path('salir') }}" role="button" aria-haspopup="true" aria-expanded="false"> {% trans %} Salir {% endtrans %} </a>
+                        <li/>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
 
-{% endblock %}
+    {% endblock %}
