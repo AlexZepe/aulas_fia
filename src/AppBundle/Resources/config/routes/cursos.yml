@@ -28,7 +28,15 @@ cursos_delete_curso_docente:
 
 cursos_add_actividad:
     path:     /saveActividad/{idCurso}
-    defaults: { _controller: AppBundle:Cursos:saveActividad }        
+    defaults: { _controller: AppBundle:Cursos:saveActividad }
+
+cursos_edit_actividad:
+    path:     /editActividad/{idCurso,idActividad}
+    defaults: { _controller: AppBundle:Cursos:editActividad }
+
+cursos_delete_actividad:
+    path:     /deleteActividad/{idCurso,idActividad}
+    defaults: { _controller: AppBundle:Cursos:deleteActividad }        
 
 cursos_gest_docentes:
     path:     /gestionarDocentes/{idCurso}
@@ -54,6 +62,27 @@ cursos_gest_actividades_add:
     path:     /gestionarActividadesAdd/{idCurso}
     defaults: { _controller: AppBundle:Cursos:gestionarActividadesAdd }  
 
+cursos_gest_actividades_edit:
+    path:     /gestionarActividadesEdit/{idCurso,idActividad}
+    defaults: { _controller: AppBundle:Cursos:gestionarActividadesEdit }
+
+cursos_gest_actividades_delete:
+    path:     /gestionarActividadesDelete/{idCurso,idActividad}
+    defaults: { _controller: AppBundle:Cursos:gestionarActividadesDelete }
+
 find_escuelas:
     path:     /findEscuelas
-    defaults: { _controller: AppBundle:Cursos:findEscuelas } 
+    defaults: { _controller: AppBundle:Cursos:findEscuelas }
+
+aprobar_actividades_esc_init:
+    path:     /aprobarActividadesEscInit
+    defaults: { _controller: AppBundle:Cursos:aprobarActividadesEscInit }
+
+aprobar_actividades_esc_find:
+    path:     /aprobarActividadesEscFind
+    defaults: { _controller: AppBundle:Cursos:aprobarActividadesEscFind }
+
+aprobar_actividades_esc:
+    path:     /aprobarActividadesEsc/{idActividad,idCiclo}
+    defaults: { _controller: AppBundle:Cursos:aprobarActividadesEsc }   
+     

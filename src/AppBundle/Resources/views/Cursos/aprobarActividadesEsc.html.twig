@@ -1,0 +1,53 @@
+{% extends 'AppBundle:Inicio:inicio.html.twig' %}
+{% block body %}
+    {{ parent() }}
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <h2>Cursos</h2>
+            <br/>
+            <form class="form-horizontal" role="form" id="formCursos" method="POST" action="{{path('aprobar_actividades_esc_find')}}">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Ciclo</label>
+                    <div class="col-lg-10">
+                        <select class="form-control" name="cicloSelect" required>
+                            {% for cicloIter in ciclosList %}
+                                <option value="{{cicloIter.idciclo}}">{{cicloIter.numerociclo}} {{cicloIter.aniociclo}}</option>
+                            {% endfor%}
+                        </select>
+                    </div>
+                </div>                
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="submit" class="btn btn-info">Buscar Actividades Pendientes de Aprobación</button>
+                    </div>
+                </div>
+            </form>
+
+            <br/>
+        <table class="table table-striped table-hover">
+        <tr>
+            <td>Actividad</td>
+            <td>Aula</td>
+            <td>Horario</td>
+            <td>Estado</td>
+            <td>Acciones</td>
+        </tr>
+    {% for actividadIter in actividadesList %}
+        <tr>
+            <td>{{ actividadIter["nombretipoactividad"] }}</td>
+            <td>{{ actividadIter["nombreaula"] }}</td>
+            <td>{{ actividadIter["horainicio"] }} - {{ actividadIter["horafin"] }}</td>
+            <td>{{ actividadIter["nombreestadoactdet"] }}</td>
+            <td class="actions">
+                <a class="btn btn-default" href="{{ path('aprobar_actividades_esc', {'idActividad':actividadIter["idactividad"],'idCiclo':idCic }) }}"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+            </td>
+        </tr>
+    {% endfor%}
+        </table>
+        </div>
+    </div>
+
+{% endblock %}

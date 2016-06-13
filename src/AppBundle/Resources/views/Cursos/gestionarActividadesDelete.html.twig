@@ -1,0 +1,244 @@
+{% extends 'layout.html.twig' %} 
+{% block body %}
+{{ parent() }}
+<div class="row">
+    <div class="col-md-2"></div>
+      <div class="col-md-8">
+        
+        <h3>
+            {{infoCiclo}}
+        </h3>
+        <h3>Nueva Actividad</h3>
+
+        <form class="form-horizontal" role="form" method="POST" action="{{path('cursos_delete_actividad', {idActividad: actividad.getIdActividad() ,idCurso: idCur })}}" id="addActForm">
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <label>Tipo Actividad</label>
+                </div>
+                <div class="col-lg-4">
+                    <select disabled class="form-control" required id="tiposActividadSelect" name="tiposActividadSelect">
+                        {% for tipoActividadIter in tiposActividadesList %}
+                            <option value="{{tipoActividadIter.idtipoactividad}}"
+                            {% if tipoActividadIter.idtipoactividad == actividad.getIdtipoactividad().getIdtipoactividad() %}
+                            selected
+                            {% endif %}>
+                            {{tipoActividadIter.nombretipoactividad}}</option>
+                        {% endfor%}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <label>Número Actividad</label>
+                </div>
+                <div class="col-lg-10">
+                    <input disabled type="number" id="numActividadInput" name="numActividadInput" required value="{{actividadDetalle.getCorrelativo()}}">
+                </div>
+            </div> 
+            <div class="form-group" id="fechaActDiv">
+                <div class="col-sm-2">
+                    <label>Fecha Actividad</label>
+                </div>
+                <div class="col-sm-4">
+                    {{ form_widget(form.dia) }}
+                    <span class="text-danger" >{{ form_errors(form.dia) }}</span>                        
+                </div>
+            </div>
+
+            <div class="form-group" id="fechaIniDiv">
+                <div class="col-sm-2">
+                    <label>Fecha Inicio</label>
+                </div>
+                <div class="col-sm-4">
+                    {{ form_widget(form.fechainicio) }}
+                    <span class="text-danger" >{{ form_errors(form.fechainicio) }}</span>                        
+                </div>
+            </div>
+
+            <div class="form-group" id="fechaFinDiv">
+                <div class="col-sm-2">
+                    <label>Fecha Fin</label>
+                </div>
+                <div class="col-sm-4">
+                    {{ form_widget(form.fechafin) }}
+                    <span class="text-danger" >{{ form_errors(form.fechafin) }}</span>                        
+                </div>
+            </div>
+
+            <!--div class="form-group">
+                <label class="col-lg-2 control-label">Día Actividad</label>
+                <div class="col-lg-4">
+                    <select disabled class="form-control" required id="diaActividadSelect" name="diaActividadSelect">
+                        <option value="LUNES">LUNES</option>
+                        <option value="MARTES">MARTES</option>
+                        <option value="MIERCOLES">MIERCOLES</option>
+                        <option value="JUEVES">JUEVES</option>
+                        <option value="VIERNES">VIERNES</option>
+                        <option value="SABADO">SABADO</option>
+                        <option value="DOMINGO">DOMINGO</option>
+                    </select>
+                </div>
+            </div-->
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <label>Hora Inicio</label>
+                </div>
+                <div class="col-lg-4">
+                    <select disabled class="form-control" required id="horaInicioActSelect" name="horaInicioActSelect">
+                        <option value="06:20"
+                            {% if '06:20' == actividadDetalle.getHorainicio() %}
+                            selected
+                            {% endif %}>06:20</option>
+
+                        <option value="08:05"
+                            {% if '08:05' == actividadDetalle.getHorainicio() %}
+                            selected
+                            {% endif %}>08:05</option>
+                        
+                        <option value="09:50"
+                            {% if '09:50' == actividadDetalle.getHorainicio() %}
+                            selected
+                            {% endif %}>09:50</option>
+                        
+                        <option value="11:35"
+                            {% if '11:35' == actividadDetalle.getHorainicio() %}
+                            selected
+                            {% endif %}>11:35</option>
+                        
+                        <option value="13:20"
+                            {% if '13:20' == actividadDetalle.getHorainicio() %}
+                            selected
+                            {% endif %}>13:20</option>
+                        
+                        <option value="15:05"
+                            {% if '15:05' == actividadDetalle.getHorainicio() %}
+                            selected
+                            {% endif %}>15:05</option>
+                        
+                        <option value="16:50"
+                            {% if '16:50' == actividadDetalle.getHorainicio() %}
+                            selected
+                            {% endif %}>16:50</option>
+                        
+                        <option value="18:35"
+                            {% if '18:35' == actividadDetalle.getHorainicio() %}
+                            selected
+                            {% endif %}>18:35</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <label>Hora Fin</label>
+                </div>
+                <div class="col-lg-4">
+                    <select disabled class="form-control" required id="horaFinActSelect" name="horaFinActSelect">
+                        <option value="08:00"
+                            {% if '08:00' == actividadDetalle.getHorafin() %}
+                            selected
+                            {% endif %}>08:00</option>
+
+                        <option value="09:45"
+                            {% if '09:45' == actividadDetalle.getHorafin() %}
+                            selected
+                            {% endif %}>09:45</option>
+                        
+                        <option value="11:30"
+                            {% if '11:30' == actividadDetalle.getHorafin() %}
+                            selected
+                            {% endif %}>11:30</option>
+                        
+                        <option value="13:15"
+                            {% if '13:15' == actividadDetalle.getHorafin() %}
+                            selected
+                            {% endif %}>13:15</option>
+                        
+                        <option value="15:00"
+                            {% if '15:00' == actividadDetalle.getHorafin() %}
+                            selected
+                            {% endif %}>15:00</option>
+                        
+                        <option value="16:45"
+                            {% if '16:45' == actividadDetalle.getHorafin() %}
+                            selected
+                            {% endif %}>16:45</option>
+                        
+                        <option value="18:30"
+                            {% if '18:30' == actividadDetalle.getHorafin() %}
+                            selected
+                            {% endif %}>18:30</option>
+                        
+                        <option value="20:15"
+                            {% if '20:15' == actividadDetalle.getHorafin() %}
+                            selected
+                            {% endif %}>20:15</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <label>Aula</label>
+                </div>
+                <div class="col-lg-4">
+                    <select disabled class="form-control" required id="aulaSelect" name="aulaSelect">
+                        {% for aulaIter in aulasList %}
+                            <option value="{{aulaIter.idaula}}"
+                            {% if aulaIter.idaula == actividadDetalle.getIdaula().getIdaula() %}
+                            selected
+                            {% endif %}>{{aulaIter.nombreaula}}</option>
+                        {% endfor%}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" style="visibility:hidden;">
+               <input type="date" id="fechaActividadInput" name="fechaActividadInput">
+               <input type="date" id="fechaInicioInput" name="fechaInicioInput">
+                <input type="date" id="fechaFinInput" name="fechaFinInput" >
+            </div>
+            
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-4">
+                    <button type="submit" class="btn btn-info">Eliminar</button>
+                    
+                    <a class="btn btn-info" href="{{ path('cursos_gest_actividades', { idCurso: idCur}) }}">Volver</a>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.calendario').datepicker({
+                format: "yyyy-mm-dd"
+            }); 
+            
+            $('#addActForm').mouseenter(function(){
+                $('#fechaActividadInput').val($('#tbl_actividades_detalle_dia').val());
+
+                $('#fechaInicioInput').val($('#tbl_actividades_detalle_fechainicio').val());
+
+                $('#fechaFinInput').val($('#tbl_actividades_detalle_fechafin').val());
+            }); 
+
+            $("#tbl_actividades_detalle_dia").prop("disabled", true);
+
+            $("#tbl_actividades_detalle_fechainicio").prop("disabled", true);
+
+            $("#tbl_actividades_detalle_fechafin").prop("disabled", true);
+
+        });
+    </script>
+
+{% endblock %}
+
+{% endblock %}

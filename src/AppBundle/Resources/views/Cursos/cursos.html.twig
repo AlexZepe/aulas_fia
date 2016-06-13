@@ -58,7 +58,6 @@
                     <td>Curso</td>
                     <td>Docentes</td>
                     <td>Actividades</td>
-                    <td>Reporte</td>
                 </tr>
                 {% for cursoIter in cursosList %}
                     <tr>
@@ -75,8 +74,6 @@
                             <a href="{{ path('cursos_gest_actividades', { idCurso: cursoIter.idcurso }) }}" class="btn btn-sm btn-info">
                                 {{ 'Gestionar Actividades'|trans }}
                             </a>
-                        </td>
-                        <td class="actions">
                         </td>
                     </tr>
                 {% endfor%}

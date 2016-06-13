@@ -10,7 +10,7 @@
         </h3>
         <h3>Nueva Actividad</h3>
 
-        <form class="form-horizontal" role="form" method="POST" action="{{path('cursos_add_actividad', { idCurso: idCur })}}" id="addActForm">
+        <form class="form-horizontal" role="form" method="POST" action="{{path('cursos_edit_actividad', {idActividad: actividad.getIdActividad() ,idCurso: idCur })}}" id="addActForm">
             <div class="form-group">
                 <div class="col-sm-2">
                     <label>Tipo Actividad</label>
@@ -18,7 +18,11 @@
                 <div class="col-lg-4">
                     <select class="form-control" required id="tiposActividadSelect" name="tiposActividadSelect">
                         {% for tipoActividadIter in tiposActividadesList %}
-                            <option value="{{tipoActividadIter.idtipoactividad}}">{{tipoActividadIter.nombretipoactividad}}</option>
+                            <option value="{{tipoActividadIter.idtipoactividad}}"
+                            {% if tipoActividadIter.idtipoactividad == actividad.getIdtipoactividad().getIdtipoactividad() %}
+                            selected
+                            {% endif %}>
+                            {{tipoActividadIter.nombretipoactividad}}</option>
                         {% endfor%}
                     </select>
                 </div>
@@ -29,7 +33,7 @@
                     <label>Número Actividad</label>
                 </div>
                 <div class="col-lg-10">
-                    <input type="number" id="numActividadInput" name="numActividadInput" required>
+                    <input type="number" id="numActividadInput" name="numActividadInput" required value="{{actividadDetalle.getCorrelativo()}}">
                 </div>
             </div> 
             <div class="form-group" id="fechaActDiv">
@@ -83,14 +87,45 @@
                 </div>
                 <div class="col-lg-4">
                     <select class="form-control" required id="horaInicioActSelect" name="horaInicioActSelect">
-                        <option value="06:20">06:20</option>
-                        <option value="08:05">08:05</option>
-                        <option value="09:50">09:50</option>
-                        <option value="11:35">11:35</option>
-                        <option value="13:20">13:20</option>
-                        <option value="15:05">15:05</option>
-                        <option value="16:50">16:50</option>
-                        <option value="18:35">18:35</option>
+                        <option value="06:20"
+                            {% if '06:20' == actividadDetalle.getHorainicio() %}
+                            selected
+                            {% endif %}>06:20</option>
+
+                        <option value="08:05"
+                            {% if '08:05' == actividadDetalle.getHorainicio() %}
+                            selected
+                            {% endif %}>08:05</option>
+                        
+                        <option value="09:50"
+                            {% if '09:50' == actividadDetalle.getHorainicio() %}
+                            selected
+                            {% endif %}>09:50</option>
+                        
+                        <option value="11:35"
+                            {% if '11:35' == actividadDetalle.getHorainicio() %}
+                            selected
+                            {% endif %}>11:35</option>
+                        
+                        <option value="13:20"
+                            {% if '13:20' == actividadDetalle.getHorainicio() %}
+                            selected
+                            {% endif %}>13:20</option>
+                        
+                        <option value="15:05"
+                            {% if '15:05' == actividadDetalle.getHorainicio() %}
+                            selected
+                            {% endif %}>15:05</option>
+                        
+                        <option value="16:50"
+                            {% if '16:50' == actividadDetalle.getHorainicio() %}
+                            selected
+                            {% endif %}>16:50</option>
+                        
+                        <option value="18:35"
+                            {% if '18:35' == actividadDetalle.getHorainicio() %}
+                            selected
+                            {% endif %}>18:35</option>
                     </select>
                 </div>
             </div>
@@ -101,14 +136,45 @@
                 </div>
                 <div class="col-lg-4">
                     <select class="form-control" required id="horaFinActSelect" name="horaFinActSelect">
-                        <option value="08:00">08:00</option>
-                        <option value="09:45">09:45</option>
-                        <option value="11:30">11:30</option>
-                        <option value="13:15">13:15</option>
-                        <option value="15:00">15:00</option>
-                        <option value="16:45">16:45</option>
-                        <option value="18:30">18:30</option>
-                        <option value="20:15">20:15</option>
+                        <option value="08:00"
+                            {% if '08:00' == actividadDetalle.getHorafin() %}
+                            selected
+                            {% endif %}>08:00</option>
+
+                        <option value="09:45"
+                            {% if '09:45' == actividadDetalle.getHorafin() %}
+                            selected
+                            {% endif %}>09:45</option>
+                        
+                        <option value="11:30"
+                            {% if '11:30' == actividadDetalle.getHorafin() %}
+                            selected
+                            {% endif %}>11:30</option>
+                        
+                        <option value="13:15"
+                            {% if '13:15' == actividadDetalle.getHorafin() %}
+                            selected
+                            {% endif %}>13:15</option>
+                        
+                        <option value="15:00"
+                            {% if '15:00' == actividadDetalle.getHorafin() %}
+                            selected
+                            {% endif %}>15:00</option>
+                        
+                        <option value="16:45"
+                            {% if '16:45' == actividadDetalle.getHorafin() %}
+                            selected
+                            {% endif %}>16:45</option>
+                        
+                        <option value="18:30"
+                            {% if '18:30' == actividadDetalle.getHorafin() %}
+                            selected
+                            {% endif %}>18:30</option>
+                        
+                        <option value="20:15"
+                            {% if '20:15' == actividadDetalle.getHorafin() %}
+                            selected
+                            {% endif %}>20:15</option>
                     </select>
                 </div>
             </div>
@@ -120,7 +186,10 @@
                 <div class="col-lg-4">
                     <select class="form-control" required id="aulaSelect" name="aulaSelect">
                         {% for aulaIter in aulasList %}
-                            <option value="{{aulaIter.idaula}}">{{aulaIter.nombreaula}}</option>
+                            <option value="{{aulaIter.idaula}}"
+                            {% if aulaIter.idaula == actividadDetalle.getIdaula().getIdaula() %}
+                            selected
+                            {% endif %}>{{aulaIter.nombreaula}}</option>
                         {% endfor%}
                     </select>
                 </div>
@@ -134,7 +203,7 @@
             
             <div class="form-group">
                 <div class="col-lg-offset-2 col-lg-4">
-                    <button type="submit" class="btn btn-info">Guardar</button>
+                    <button type="submit" class="btn btn-info">Editar</button>
                     
                     <a class="btn btn-info" href="{{ path('cursos_gest_actividades', { idCurso: idCur}) }}">Volver</a>
                 </div>
@@ -173,7 +242,7 @@
                } 
             });
 
-            $('#fechaActDiv').hide(); 
+            //$('#fechaActDiv').hide(); 
 
             $("#tbl_actividades_detalle_dia").prop("required", false);
 

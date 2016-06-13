@@ -13,9 +13,100 @@ use AppBundle\Entity\TblActividadesDetalle;
 use AppBundle\Form\TblActividadesDetalleType;
 
 class CursosController extends Controller
-{
-    public function saveActividadAction(Request $request, $idCurso){
+{   
+    public function deleteActividadAction(Request $request){
+        $idCurso = $request->query->get('idCurso');
+        $idActividad = $request->query->get('idActividad');
+        $db = $this->getDoctrine()->getManager()->getConnection();     
 
+        $sql = "DELETE FROM Tbl_Actividades_Detalle 
+        WHERE idactividad = ?";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(1, $idActividad);
+        $stmt->execute();
+
+        $sql = "DELETE FROM Tbl_Actividades 
+        WHERE idactividad = ?";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(1, $idActividad);
+        $stmt->execute(); 
+
+        $infoCicloArray = $this->obtenerInfoCiclo($idCurso);
+        $infoCiclo = $infoCicloArray[0];
+
+        $actividadesList = $this->getDoctrine()->getEntityManager()->createQuery("SELECT a.idactividad
+            ,ta.nombretipoactividad
+            ,ad.correlativo
+            ,ead.nombreestadoactdet 
+            from AppBundle:TblActividades a
+            ,AppBundle:TblActividadesDetalle ad 
+            ,AppBundle:TblTiposActividades ta 
+            ,AppBundle:TblEstadoActDet ead
+            where a.idcurso = :pIdCurso
+            and ad.idactividad = a.idactividad
+            and ta.idtipoactividad = a.idtipoactividad
+            and ead.idestadoactdet = ad.idestadoactdet")->setParameters(array('pIdCurso'=>$idCurso))->getResult();
+
+        return $this->render('AppBundle:Cursos:gestionarActividades.html.twig',array('infoCiclo'=>$infoCiclo,'idCur'=>$idCurso,'actividadesList'=>$actividadesList));  
+    }
+
+    public function editActividadAction(Request $request){
+        $idCurso = $request->query->get('idCurso');
+        $idActividad = $request->query->get('idActividad');
+
+        $fechaActividad = null;
+        $fechainicioAct = null;
+        if($request->get("fechaInicioInput")){
+            $fechainicioAct = $request->get("fechaInicioInput");
+            $fechaActividad = $request->get("fechaInicioInput");
+        }
+        $fechafinAct = null;
+        if($request->get("fechaFinInput")){
+            $fechafinAct = $request->get("fechaFinInput");
+        }
+        if($request->get("fechaActividadInput")){
+            $fechaActividad = $request->get("fechaActividadInput");
+        }
+
+        $sql = "UPDATE Tbl_Actividades_Detalle 
+        set idaula = ?
+        ,dia = ?
+        ,horainicio = ?
+        ,horafin = ?
+        ,fechainicio = ?
+        ,fechafin = ?
+        WHERE idactividad = ?";
+        $db = $this->getDoctrine()->getManager()->getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(1, $request->get("aulaSelect"));
+        $stmt->bindValue(2, $fechaActividad);
+        $stmt->bindValue(3, $request->get("horaInicioActSelect"));
+        $stmt->bindValue(4, $request->get("horaFinActSelect"));
+        $stmt->bindValue(5, $fechainicioAct);
+        $stmt->bindValue(6, $fechafinAct);
+        $stmt->bindValue(7, $idActividad);
+        $stmt->execute();
+
+        $infoCicloArray = $this->obtenerInfoCiclo($idCurso);
+        $infoCiclo = $infoCicloArray[0];
+
+        $actividadesList = $this->getDoctrine()->getEntityManager()->createQuery("SELECT a.idactividad
+            ,ta.nombretipoactividad
+            ,ad.correlativo
+            ,ead.nombreestadoactdet 
+            from AppBundle:TblActividades a
+            ,AppBundle:TblActividadesDetalle ad 
+            ,AppBundle:TblTiposActividades ta 
+            ,AppBundle:TblEstadoActDet ead
+            where a.idcurso = :pIdCurso
+            and ad.idactividad = a.idactividad
+            and ta.idtipoactividad = a.idtipoactividad
+            and ead.idestadoactdet = ad.idestadoactdet")->setParameters(array('pIdCurso'=>$idCurso))->getResult();
+
+        return $this->render('AppBundle:Cursos:gestionarActividades.html.twig',array('infoCiclo'=>$infoCiclo,'idCur'=>$idCurso,'actividadesList'=>$actividadesList));
+    }
+
+    public function saveActividadAction(Request $request, $idCurso){
         $maxIdActt = $this->getDoctrine()->getEntityManager()->createQuery("SELECT max(a.idactividad) maxidactividad from AppBundle:TblActividades a")->getResult();
         
         $maxIdAct = $maxIdActt[0]["maxidactividad"];
@@ -65,30 +156,73 @@ class CursosController extends Controller
         return $this->render('AppBundle:Cursos:gestionarActividades.html.twig',array('infoCiclo'=>$infoCiclo,'idCur'=>$idCurso,'actividadesList'=>$actividadesList));     
     }
 
+    public function gestionarActividadesDeleteAction(Request $request){
+        $idCurso = $request->query->get('idCurso');
+        $idActividad = $request->query->get('idActividad');
+
+        $actividad = $this->getDoctrine()->getEntityManager()->createQuery("SELECT a 
+            from AppBundle:TblActividades a 
+            where a.idactividad = :pIdActividad")->setParameters(array('pIdActividad'=>$idActividad))->getResult();
+
+        $actividadDetalle = $this->getDoctrine()->getEntityManager()->createQuery("SELECT ad
+            from AppBundle:TblActividadesDetalle ad 
+            where ad.idactividad = :pIdActividad")->setParameters(array('pIdActividad'=>$idActividad))->getResult();
+
+        $form = $this->createForm('AppBundle\Form\TblActividadesDetalleType', $actividadDetalle[0]);
+        $form->handleRequest($request);
+
+        $infoCicloArray = $this->obtenerInfoCiclo($idCurso);
+        $infoCiclo = $infoCicloArray[0];
+
+        $tblTiposActividades = $this->getDoctrine()->getManager()->getRepository('AppBundle:TblTiposActividades')->findAll();
+
+        $tblAulas = $this->getDoctrine()->getManager()->getRepository('AppBundle:TblAulas')->findAll();
+
+        return $this->render('AppBundle:Cursos:gestionarActividadesDelete.html.twig',array('infoCiclo'=>$infoCiclo,
+            'idCur'=>$idCurso,
+            'tiposActividadesList'=>$tblTiposActividades,
+            'aulasList'=>$tblAulas,
+            'actividad'=>$actividad[0],
+            'actividadDetalle'=>$actividadDetalle[0],
+            'form' => $form->createView()));
+    }
+
+    public function gestionarActividadesEditAction(Request $request){
+
+        $idCurso = $request->query->get('idCurso');
+        $idActividad = $request->query->get('idActividad');
+
+        $actividad = $this->getDoctrine()->getEntityManager()->createQuery("SELECT a 
+            from AppBundle:TblActividades a 
+            where a.idactividad = :pIdActividad")->setParameters(array('pIdActividad'=>$idActividad))->getResult();
+
+        $actividadDetalle = $this->getDoctrine()->getEntityManager()->createQuery("SELECT ad
+            from AppBundle:TblActividadesDetalle ad 
+            where ad.idactividad = :pIdActividad")->setParameters(array('pIdActividad'=>$idActividad))->getResult();
+
+        $form = $this->createForm('AppBundle\Form\TblActividadesDetalleType', $actividadDetalle[0]);
+        $form->handleRequest($request);
+
+        $infoCicloArray = $this->obtenerInfoCiclo($idCurso);
+        $infoCiclo = $infoCicloArray[0];
+
+        $tblTiposActividades = $this->getDoctrine()->getManager()->getRepository('AppBundle:TblTiposActividades')->findAll();
+
+        $tblAulas = $this->getDoctrine()->getManager()->getRepository('AppBundle:TblAulas')->findAll();
+
+        return $this->render('AppBundle:Cursos:gestionarActividadesEdit.html.twig',array('infoCiclo'=>$infoCiclo,
+            'idCur'=>$idCurso,
+            'tiposActividadesList'=>$tblTiposActividades,
+            'aulasList'=>$tblAulas,
+            'actividad'=>$actividad[0],
+            'actividadDetalle'=>$actividadDetalle[0],
+            'form' => $form->createView()));
+    }
+
     public function gestionarActividadesAddAction(Request $request,$idCurso){
         $tblActividadesDetalle = new TblActividadesDetalle();
         $form = $this->createForm('AppBundle\Form\TblActividadesDetalleType', $tblActividadesDetalle);
         $form->handleRequest($request);
-
-        /*$tblPerfil = new TblPerfil();
-        $form = $this->createForm('AppBundle\Form\TblPerfilType', $tblPerfil);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($tblPerfil);
-            $em->flush();
-
-            echo "<script language='Javascript' type='text/javascript'>
-            window.opener.location='../tblperfil'
-            window.close()
-        </script>";
-    }
-
-    return $this->render('tblperfil/new.html.twig', array(
-        'tblPerfil' => $tblPerfil,
-        'form' => $form->createView(),
-        ));*/
 
         $infoCicloArray = $this->obtenerInfoCiclo($idCurso);
         $infoCiclo = $infoCicloArray[0];
@@ -310,6 +444,173 @@ class CursosController extends Controller
         return $this->render('AppBundle:Cursos:gestionarDocentes.html.twig',array('infoCiclo'=>$infoCiclo,'docentesList'=>$cursoDocentes,'idCur'=>$idCurso));
     }
 
+    public function aprobarActividadesEscInitAction(Request $request){
+        $session = $request->getSession();
+        if($session->has("id")){
+            $em = $this->getDoctrine()->getManager();            
+            $db = $em->getConnection();
+            $menuList = array();
+            $subMenuList = array();
+
+            $iduser = $session->get('id');
+            $user = $em->getRepository('AppBundle:TblUsuarios')->find($iduser);
+            $array = $this->obtenerMenus($iduser);
+            $menuList = $array[0];
+            $subMenuList = $array[1];            
+
+            $ciclosList = $this->obtenerCiclosList();
+
+            $actividadesList = $this->getDoctrine()->getEntityManager()->createQuery("SELECT a.idactividad
+            ,ta.nombretipoactividad
+            ,ad.correlativo
+            ,ead.nombreestadoactdet
+            ,ad.horainicio
+            ,ad.horafin
+            ,au.nombreaula 
+            from AppBundle:TblActividades a
+            ,AppBundle:TblActividadesDetalle ad 
+            ,AppBundle:TblTiposActividades ta 
+            ,AppBundle:TblEstadoActDet ead
+            ,AppBundle:tblAulas au
+            ,AppBundle:TblCursos cur
+            where ad.idactividad = a.idactividad
+            and ta.idtipoactividad = a.idtipoactividad
+            and ead.idestadoactdet = ad.idestadoactdet
+            and au.idaula = ad.idaula
+            and cur.idcurso = a.idcurso
+            and ead.nombreestadoactdet = :pNomEstadoActDet
+            and cur.idciclo = :pIdciclo")->setParameters(array('pIdciclo'=>$ciclosList[0]["idciclo"],'pNomEstadoActDet'=>"Pendiente de Aprobación Escuela"))->getResult();
+
+            return $this->render('AppBundle:Cursos:aprobarActividadesEsc.html.twig', array('usuariologeado'=>$user,
+                'menuList'=>$menuList,
+                'subMenuList'=>$subMenuList,
+                'ciclosList'=>$ciclosList,
+                'actividadesList'=>$actividadesList,
+                'idCic'=>$ciclosList[0]["idciclo"]));
+        }else{
+            $this->get("session")->getFlashBag()->add("mensaje","Debe estar logueado para ver este contenido."); 
+               return $this->redirect($this->generateUrl("login"));
+        }
+        return $this->render('AppBundle:Cursos:aprobarActividadesEsc.html.twig');
+    }
+
+    public function aprobarActividadesEscFindAction(Request $request){
+        $session = $request->getSession();
+        if($session->has("id")){
+            $em = $this->getDoctrine()->getManager();            
+            $db = $em->getConnection();
+            $menuList = array();
+            $subMenuList = array();
+
+            $iduser = $session->get('id');
+            $user = $em->getRepository('AppBundle:TblUsuarios')->find($iduser);
+            $array = $this->obtenerMenus($iduser);
+            $menuList = $array[0];
+            $subMenuList = $array[1];            
+
+            $ciclosList = $this->obtenerCiclosList();
+
+            $actividadesList = $this->getDoctrine()->getEntityManager()->createQuery("SELECT a.idactividad
+            ,ta.nombretipoactividad
+            ,ad.correlativo
+            ,ead.nombreestadoactdet
+            ,ad.horainicio
+            ,ad.horafin
+            ,au.nombreaula 
+            from AppBundle:TblActividades a
+            ,AppBundle:TblActividadesDetalle ad 
+            ,AppBundle:TblTiposActividades ta 
+            ,AppBundle:TblEstadoActDet ead
+            ,AppBundle:tblAulas au
+            ,AppBundle:TblCursos cur
+            where ad.idactividad = a.idactividad
+            and ta.idtipoactividad = a.idtipoactividad
+            and ead.idestadoactdet = ad.idestadoactdet
+            and au.idaula = ad.idaula
+            and cur.idcurso = a.idcurso
+            and cur.idciclo = :pIdciclo 
+            and ead.nombreestadoactdet = :pNomEstadoActDet")->setParameters(array('pIdciclo'=>$request->get("cicloSelect"),'pNomEstadoActDet'=>"Pendiente de Aprobación Escuela"))->getResult();
+
+            return $this->render('AppBundle:Cursos:aprobarActividadesEsc.html.twig', array('usuariologeado'=>$user,
+                'menuList'=>$menuList,
+                'subMenuList'=>$subMenuList,
+                'ciclosList'=>$ciclosList,
+                'actividadesList'=>$actividadesList,
+                'idCic'=>$request->get("cicloSelect")));
+        }else{
+            $this->get("session")->getFlashBag()->add("mensaje","Debe estar logueado para ver este contenido."); 
+               return $this->redirect($this->generateUrl("login"));
+        }
+        return $this->render('AppBundle:Cursos:aprobarActividadesEsc.html.twig');
+    }
+
+    public function aprobarActividadesEscAction(Request $request){
+        $idActividad = $request->query->get('idActividad');
+        $idCiclo = $request->query->get('idCiclo');
+
+        $session = $request->getSession();
+        if($session->has("id")){
+            $em = $this->getDoctrine()->getManager();            
+            $db = $em->getConnection();
+            $menuList = array();
+            $subMenuList = array();
+
+            $iduser = $session->get('id');
+            $user = $em->getRepository('AppBundle:TblUsuarios')->find($iduser);
+            $array = $this->obtenerMenus($iduser);
+            $menuList = $array[0];
+            $subMenuList = $array[1];            
+
+            $idEstadoActDet = $this->getDoctrine()->getEntityManager()->createQuery("SELECT ead.idestadoactdet from AppBundle:TblEstadoActDet ead where ead.nombreestadoactdet = 'Pendiente de Aprobación Académica'")->getResult();
+
+            $sql = "UPDATE Tbl_Actividades_Detalle
+            set idestadoactdet = ?
+            WHERE idactividad = ?";
+            $db = $this->getDoctrine()->getManager()->getConnection();
+
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(1, $idEstadoActDet[0]["idestadoactdet"]);
+            $stmt->bindValue(2, $idActividad);
+            $stmt->execute();
+
+            $ciclosList = $this->obtenerCiclosList();
+
+            $actividadesList = $this->getDoctrine()->getEntityManager()->createQuery("SELECT a.idactividad
+            ,ta.nombretipoactividad
+            ,ad.correlativo
+            ,ead.nombreestadoactdet
+            ,ad.horainicio
+            ,ad.horafin
+            ,au.nombreaula 
+            from AppBundle:TblActividades a
+            ,AppBundle:TblActividadesDetalle ad 
+            ,AppBundle:TblTiposActividades ta 
+            ,AppBundle:TblEstadoActDet ead
+            ,AppBundle:tblAulas au
+            ,AppBundle:TblCursos cur
+            where ad.idactividad = a.idactividad
+            and ta.idtipoactividad = a.idtipoactividad
+            and ead.idestadoactdet = ad.idestadoactdet
+            and au.idaula = ad.idaula
+            and cur.idcurso = a.idcurso
+            and cur.idciclo = :pIdciclo 
+            and ead.nombreestadoactdet = :pNomEstadoActDet")->setParameters(array('pIdciclo'=>$idCiclo,'pNomEstadoActDet'=>"Pendiente de Aprobación Escuela"))->getResult();
+
+            return $this->render('AppBundle:Cursos:aprobarActividadesEsc.html.twig', array('usuariologeado'=>$user,
+                'menuList'=>$menuList,
+                'subMenuList'=>$subMenuList,
+                'ciclosList'=>$ciclosList,
+                'actividadesList'=>$actividadesList,
+                'idCic'=>$idCiclo));
+
+        }else{
+            $this->get("session")->getFlashBag()->add("mensaje","Debe estar logueado para ver este contenido."); 
+               return $this->redirect($this->generateUrl("login"));
+        }
+        return $this->render('AppBundle:Cursos:aprobarActividadesEsc.html.twig');
+
+    }
+
     public function gestionarActividadesAction(Request $request,$idCurso){
         $infoCicloArray = $this->obtenerInfoCiclo($idCurso);
         $infoCiclo = $infoCicloArray[0];
@@ -317,15 +618,20 @@ class CursosController extends Controller
         $actividadesList = $this->getDoctrine()->getEntityManager()->createQuery("SELECT a.idactividad
             ,ta.nombretipoactividad
             ,ad.correlativo
-            ,ead.nombreestadoactdet 
+            ,ead.nombreestadoactdet
+            ,ad.horainicio
+            ,ad.horafin
+            ,au.nombreaula 
             from AppBundle:TblActividades a
             ,AppBundle:TblActividadesDetalle ad 
             ,AppBundle:TblTiposActividades ta 
             ,AppBundle:TblEstadoActDet ead
+            ,AppBundle:tblAulas au
             where a.idcurso = :pIdCurso
             and ad.idactividad = a.idactividad
             and ta.idtipoactividad = a.idtipoactividad
-            and ead.idestadoactdet = ad.idestadoactdet")->setParameters(array('pIdCurso'=>$idCurso))->getResult();
+            and ead.idestadoactdet = ad.idestadoactdet
+            and au.idaula = ad.idaula")->setParameters(array('pIdCurso'=>$idCurso))->getResult();
 
         return $this->render('AppBundle:Cursos:gestionarActividades.html.twig',array('infoCiclo'=>$infoCiclo,'idCur'=>$idCurso,'actividadesList'=>$actividadesList));
     }
