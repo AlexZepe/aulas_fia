@@ -1,10 +1,39 @@
 {% extends 'AppBundle:Inicio:inicio.html.twig' %}
 
 {% block body %}
-  {{parent()}}
+	{{parent()}}
 
+	<div id="wrapper">
+		<!-- Slideshow 1 -->
+		<ul class="rslides" id="slider1">
+			<li><img src="../../../web/public/images/1.png" alt=""></li>
+			<li><img src="../../../web/public/images/2.png" alt=""></li>
+			<li><img src="../../../web/public/images/3.png" alt=""></li>
+			<li><img src="../../../web/public/images/4.png" alt=""></li>
+		</ul>
+		<center>
+			<a class="btn btn-default" href="http://aula.fia.ues.edu.sv/login/index.php"><span class="glyphicon glyphicon-education" aria-hidden="true"></span></a>
+			<a class="btn btn-default" href="https://academica.ues.edu.sv/xol/"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></a>
+		</center>
+	</div>
 
- Hola Mundo!!!
+	
 
-  </script> 
+	<!--JAVASCRIPT PARA POPUP Y DATATABLES-->
+	{% block javascripts %}
+		{{ parent() }}
+		<script language='Javascript' type='text/javascript'>
+     // You can also use "$(window).load(function() {"
+     $(function () {
+
+      // Slideshow 1
+      $("#slider1").responsiveSlides({
+      	maxwidth: 800,
+      	speed: 800
+      });
+  }); 
+     
+
+ </script> 
+{% endblock %}
 {% endblock %}
