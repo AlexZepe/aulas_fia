@@ -29,7 +29,8 @@
     {% for actividadIter in actividadesList %}
         <tr>
             <td>{{ actividadIter["nombretipoactividad"] }}</td>
-            <td>{{ actividadIter["nombreaula"] }}</td>
+        
+            <td>{{ actividadIter.nombreaula }}</td>
             <td>{{ actividadIter["horainicio"] }} - {{ actividadIter["horafin"] }}</td>
             <td>{{ actividadIter["nombreestadoactdet"] }}</td>
             <td class="actions">

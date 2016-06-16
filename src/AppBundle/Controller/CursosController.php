@@ -90,18 +90,20 @@ class CursosController extends Controller
         $infoCicloArray = $this->obtenerInfoCiclo($idCurso);
         $infoCiclo = $infoCicloArray[0];
 
-        $actividadesList = $this->getDoctrine()->getEntityManager()->createQuery("SELECT a.idactividad
-            ,ta.nombretipoactividad
+        $actividadesList = $this->getDoctrine()->getEntityManager()->createQuery("SELECT a.idactividad, ad.horainicio, ad.horafin
+            ,ta.nombretipoactividad, adfg.nombreaula
             ,ad.correlativo
             ,ead.nombreestadoactdet 
             from AppBundle:TblActividades a
             ,AppBundle:TblActividadesDetalle ad 
             ,AppBundle:TblTiposActividades ta 
             ,AppBundle:TblEstadoActDet ead
+            ,AppBundle:TblAulas adfg
             where a.idcurso = :pIdCurso
             and ad.idactividad = a.idactividad
             and ta.idtipoactividad = a.idtipoactividad
-            and ead.idestadoactdet = ad.idestadoactdet")->setParameters(array('pIdCurso'=>$idCurso))->getResult();
+            and ead.idestadoactdet = ad.idestadoactdet
+            and adfg.idaula=ad.idaula")->setParameters(array('pIdCurso'=>$idCurso))->getResult();
 
         return $this->render('AppBundle:Cursos:gestionarActividades.html.twig',array('infoCiclo'=>$infoCiclo,'idCur'=>$idCurso,'actividadesList'=>$actividadesList));
     }
@@ -140,18 +142,21 @@ class CursosController extends Controller
         $infoCicloArray = $this->obtenerInfoCiclo($idCurso);
         $infoCiclo = $infoCicloArray[0];
 
-        $actividadesList = $this->getDoctrine()->getEntityManager()->createQuery("SELECT a.idactividad
-            ,ta.nombretipoactividad
+        $actividadesList = $this->getDoctrine()->getEntityManager()->createQuery("SELECT a.idactividad, ad.horainicio, ad.horafin
+            ,ta.nombretipoactividad, adfg.nombreaula
             ,ad.correlativo
             ,ead.nombreestadoactdet 
             from AppBundle:TblActividades a
             ,AppBundle:TblActividadesDetalle ad 
             ,AppBundle:TblTiposActividades ta 
             ,AppBundle:TblEstadoActDet ead
+            ,AppBundle:TblAulas adfg
             where a.idcurso = :pIdCurso
             and ad.idactividad = a.idactividad
             and ta.idtipoactividad = a.idtipoactividad
-            and ead.idestadoactdet = ad.idestadoactdet")->setParameters(array('pIdCurso'=>$idCurso))->getResult();
+            and ead.idestadoactdet = ad.idestadoactdet
+            and adfg.idaula=ad.idaula")->setParameters(array('pIdCurso'=>$idCurso))->getResult();
+
 
         return $this->render('AppBundle:Cursos:gestionarActividades.html.twig',array('infoCiclo'=>$infoCiclo,'idCur'=>$idCurso,'actividadesList'=>$actividadesList));     
     }
