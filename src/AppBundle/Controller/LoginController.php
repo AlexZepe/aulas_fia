@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\FormError;
+use AppBundle\Entity\TblUsuarios;
 
 class LoginController extends Controller
 {
@@ -16,8 +17,14 @@ class LoginController extends Controller
     public function loginAction(Request $request)
     {
         if($request->getMethod()=="POST"){
-        	$usuario = $request->get("inputUsuario");
-        	$clave = $request->get("inputClave");
+            $tblUsuario = new TblUsuarios();
+        	
+            $usuario = $request->get("inputUsuario");
+            $password = $request->get("inputClave");
+
+            $encoder = $this->container->get('security.password_encoder');
+            $encod = $encoder->encodePassword($tblUsuario, $password);
+            $clave = $encod;
         	
             $user = $this->getDoctrine()->getRepository('AppBundle:TblUsuarios')->findOneBy(array('usuario'=>$usuario,'password'=>$clave)); 
 
